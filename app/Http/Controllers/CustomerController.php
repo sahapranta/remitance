@@ -58,7 +58,8 @@ class CustomerController extends Controller
         $id = \Auth::user()->id;
         $new_customer = Customer::create([$request->all() + "user_id" => $id]);
         
-        return compact('new_customer');
+        $customer_id = $new_customer->id;
+        return redirect("/customer/$customer_id")->with('success', 'New Customer Created');
     }
 
     /**

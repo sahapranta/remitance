@@ -4,6 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            @include('layouts._message')
             <div class="card">
                 <div class="card-header bg-success text-white d-flex justify-content-between">
                     <h4>Welcome!</h4>

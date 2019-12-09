@@ -27,19 +27,19 @@ class RemitanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        dd($request);
+    {        
         $customer = Customer::find($request->input('customer_id'));        
+        $customer_id = $customer->id;
         $sa = Remitance::create(
             $request->only('remit_type', 'exchange_house', 'reference', 'payment_date', 'sending_country', 'sender', 'incentive_date', 'payment_type', 'payment_by', 'note') + 
             [
-                "customer_id"=>$customer->id ,
+                "customer_id"=>$customer_id ,
                 "user_id"=>$id = \Auth::user()->id ,
                 'amount' =>floatval($request->input('amount')) ,
                 'incentive_amount' => floatval($request->input('incentive_amount'))
              ]
         );
-        return compact('sa');
+        return redirect("/customer/$customer_id")->with('success', 'Remitance Successfully Added');
     }
 
     /**
