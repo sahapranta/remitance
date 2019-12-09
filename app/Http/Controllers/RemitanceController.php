@@ -46,13 +46,15 @@ class RemitanceController extends Controller
     
     public function edit(Remitance $remitance)
     {
-        //
+        return view('remitance.edit', compact('remitance'));
     }
 
    
     public function update(Request $request, Remitance $remitance)
     {
-        //
+        $remitance->update($request->only('incentive_amount', 'incentive_date'));
+        $customer_id = $remitance->Customer->id;
+        return redirect("/customer/$customer_id")->with('success', 'Incentive Successfully Paid');
     }
 
     

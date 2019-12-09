@@ -42,6 +42,7 @@
                                     <th>Date</th>
                                     <th>Amount</th>
                                     <th>Incentive</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,6 +54,13 @@
                                     <td>{{$remitance->payment_date}}</td>
                                     <td>{{$remitance->amount}}</td>
                                     <td>{{$remitance->incentive_amount}}</td>
+                                    <td>
+                                        @if($remitance->incentive_amount > 0)
+                                            <button class="btn btn-sm btn-danger" disabled>Paid</button>
+                                        @else
+                                            <a href="{{route('remitance.edit', $remitance->id)}}" class="btn btn-sm btn-outline-danger">Pay</a>
+                                        @endif
+                                    </td>
                                 </tr>
                                 @empty
                                 @endforelse
