@@ -1,0 +1,27 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Remitance extends Model
+{
+    protected $fillable = [
+       'remit_type', 'exchange_house', 'reference', 'payment_date', 'sending_country', 'sender', 'amount', 'incentive_amount', 'incentive_date', 'payment_type', 'payment_by', 'note', 'customer_id', 'user_id'
+    ];
+
+    public function User()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function Customer()
+    {
+        return $this->belongsTo('App\Customer');
+    }
+
+    public function getCreateDateAttribute()
+    {
+        return  $this->payment_date->diffForHumans();
+    }
+}
