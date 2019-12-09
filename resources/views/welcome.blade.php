@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Agrani Bank Incentive Solution</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -80,7 +80,7 @@
             @endif
 
             <div class="content">
-                <img src="image/agrani_bank.jpg" alt="image">
+                <img src="image/agrani_bank.jpg" alt="image" width="680">
                 <div class="title m-b-md">
                     Jhalam Bazar Branch, Cumilla
                 </div>

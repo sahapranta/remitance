@@ -11,6 +11,7 @@
                     <a href="{{route('customer.index')}}" class="btn btn-dark">Back</a>
                 </div>
                 <div class="card-body">
+                    <span class="text-muted">Created by: {{$customer->User->name}} | at: {{$customer->create_date}}</span>
                     <div class="row">
                         <div class="col-md-8">
                             <h4><b>Name: </b> {{$customer->name}}</h4>
@@ -26,11 +27,38 @@
                             <button class="btn btn-block btn-info">Pay Incentive</button>
                             <button class="btn btn-block btn-secondary">Pay Remitance</button>
                             <button class="btn btn-block btn-dark">Generate Report</button>
-                            <button class="btn btn-block btn-primary">View History</button>
+                            <button class="btn btn-block btn-danger">Delete</button>
                         </div>
                     </div>
-                    <hr>
-                    <span>Created by: {{$customer->User->name}} | at: {{$customer->create_date}}</span>
+           
+                    
+                    <div class="table-responsive mt-3">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Country</th>
+                                    <th>Sender</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Incentive</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($customer->Remitance as $remitance)
+                                <tr>
+                                    <td>{{$loop->index + 1}}</td>
+                                    <td>{{$remitance->sending_country}}</td>
+                                    <td>{{$remitance->sender}}</td>
+                                    <td>{{$remitance->payment_date}}</td>
+                                    <td>{{$remitance->amount}}</td>
+                                    <td>{{$remitance->incentive_amount}}</td>
+                                </tr>
+                                @empty
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

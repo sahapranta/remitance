@@ -6,17 +6,17 @@ use App\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
-{    
+{
     public function check(Request $request)
     {
         $search = $request->input('identification');
         $customers = Customer::query()
-                    ->where('nid', 'LIKE', "%{$search}%")
-                    ->orWhere('passport_id', 'LIKE', "%{$search}%")
-                    ->orWhere('account_id', 'LIKE', "%{$search}%")
-                    ->orWhere('name', 'LIKE', "%{$search}%")
-                    ->orWhere('mobile', 'LIKE', "%{$search}%")
-                    ->get();
+            ->where('nid', 'LIKE', "%{$search}%")
+            ->orWhere('passport_id', 'LIKE', "%{$search}%")
+            ->orWhere('account_id', 'LIKE', "%{$search}%")
+            ->orWhere('name', 'LIKE', "%{$search}%")
+            ->orWhere('mobile', 'LIKE', "%{$search}%")
+            ->get();
         // return compact('customer');
         return view('customer.index', compact('customers'));
     }
@@ -45,19 +45,16 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' =>'nullable|string|max:255',
-            'birthdate'=>'required|date_format:Y-m-d|before:18 years ago',
-            'mobile' =>'required|regex:/(01)[0-9]{9}/',          
-            'address' =>'nullable|string',
-            'nid' =>'nullable|numeric',            
-            'passport_id' =>'nullable|numeric',            
-            'account_id' =>'nullable|numeric',            
-        ]);
+        $new_customer = Customer::create($request->validate([
+            'name' => 'required|string|max:255',
+            'birthdate' => 'required|date_format:Y-m-d|before:18 years ago',
+            'mobile' => 'required|regex:/(01)[0-9]{9}/',
+            'address' => 'nullable|string',
+            'nid' => 'nullable|string',
+            'passport_id' => 'nullable|string',
+            'account_id' => 'nullable|string',
+        ]) + ['user_id' => \Auth::id()]);
 
-        $id = \Auth::user()->id;
-        $new_customer = Customer::create([$request->all() + "user_id" => $id]);
-        
         $customer_id = $new_customer->id;
         return redirect("/customer/$customer_id")->with('success', 'New Customer Created');
     }
