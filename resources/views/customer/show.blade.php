@@ -46,7 +46,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($customer->Remitance as $remitance)
+                                @forelse($remitances as $remitance)
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$remitance->sending_country}}</td>
@@ -66,6 +66,9 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        <div class="pagination justify-content-end">
+                            {{$remitances->links()}}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\User;
+use App\Remitance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CustomerCreated;
@@ -19,8 +20,8 @@ class CustomerController extends Controller
             ->orWhere('account_id', 'LIKE', "%{$search}%")
             ->orWhere('name', 'LIKE', "%{$search}%")
             ->orWhere('mobile', 'LIKE', "%{$search}%")
-            ->get();        
-            // return compact('customer');
+            ->get();
+        // return compact('customer');
         return view('customer.index', compact('customers'));
     }
 
@@ -30,14 +31,14 @@ class CustomerController extends Controller
         return view('customer.all', compact('customers'));
     }
 
-    
-    
+
+
     public function create()
     {
         return view('customer.create');
     }
 
-    
+
     public function store(Request $request)
     {
         $new_customer = Customer::create($request->validate([
@@ -45,36 +46,39 @@ class CustomerController extends Controller
             'birthdate' => 'required|date_format:Y-m-d|before:18 years ago',
             'mobile' => 'required|regex:/(01)[0-9]{9}/',
             'address' => 'nullable|string',
-            'nid' => 'nullable|string|unique:customers',
-            'passport_id' => 'nullable|string|unique:customers',
-            'account_id' => 'nullable|string|unique:customers',
+            'nid' => 'required_without_all:passport_id,account_id|string|unique:customers',
+            'passport_id' => 'required_without_all:nid,account_id|string|unique:customers',
+            'account_id' => 'required_without_all:nid,passport_id|string|unique:customers',
         ]) + ['user_id' => \Auth::id()]);
-        
-        $customer_id = $new_customer->id;
 
-        Notification::send(User::all(), new CustomerCreated("/customer/$customer_id", "New Customer Created", \Auth::user()->name));        
+        $customer_id = $new_customer->id;
+        $users = User::where('role', 1)->get();
+        foreach ($users as $user) {
+            $user->notify(new CustomerCreated("/customer/$customer_id", "New Customer Created", \Auth::user()->name));
+        }
         return redirect("/customer/$customer_id")->with('success', 'New Customer Created');
     }
 
-    
+
     public function show(Customer $customer)
     {
-        return view('customer.show', compact('customer'));
+        $remitances = Remitance::where('customer_id', $customer->id)->latest()->paginate(10);
+        return view('customer.show', compact('customer', 'remitances'));
     }
 
-   
+
     public function edit(Customer $customer)
     {
         //
     }
 
-    
+
     public function update(Request $request, Customer $customer)
     {
         //
     }
 
-  
+
     public function destroy(Customer $customer)
     {
         //

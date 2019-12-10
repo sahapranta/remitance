@@ -25,7 +25,7 @@ class MarkAsReadController extends Controller
     public function delete(Request $request)
     {
         if ($request->isMethod('delete')) {
-            auth()->user()->notifications()->delete();
+            auth()->user()->readNotifications()->delete();
             return redirect()->back();
         } else {
             return redirect()->back()->with('success', 'Try Again');

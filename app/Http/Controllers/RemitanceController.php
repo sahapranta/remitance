@@ -23,7 +23,7 @@ class RemitanceController extends Controller
         return view('remitance.create');
     }
 
-    
+
     public function store(Request $request)
     {
         $customer = Customer::find($request->input('customer_id'));
@@ -31,7 +31,18 @@ class RemitanceController extends Controller
         $incentive_amount = floatval($request->input('incentive_amount'));
 
         $sa = Remitance::create(
-            $request->only('remit_type', 'exchange_house', 'reference', 'payment_date', 'sending_country', 'sender', 'incentive_date', 'payment_type', 'payment_by', 'note') +
+            $request->validate([
+                'remit_type' => '|required|string',
+                'exchange_house' => '|required|string',
+                'reference' => '|required|unique:remitances',
+                'payment_date' => '|required|date',
+                'sending_country' => '|required|string',
+                'sender' => '|required|string',
+                'incentive_date' => '|nullable|date',
+                'payment_type' => '|required|string',
+                'payment_by' => '|required|string',
+                'note' => '|nullable|string',
+            ]) +
                 [
                     "customer_id" => $customer_id,
                     "user_id" => \Auth::id(),
@@ -39,29 +50,33 @@ class RemitanceController extends Controller
                     'incentive_amount' => $incentive_amount,
                 ]
         );
-        
-        if ($incentive_amount <= 0 ) {            
-            Notification::send(User::all(), new CustomerCreated("/customer/$customer_id", "Remitance Paid to $customer->name but Incentive DUE", \Auth::user()->name));
+        $users = User::where('role', 1)->get();
+        if ($incentive_amount <= 0) {
+            foreach ($users as $user) {
+                $user->notify(new CustomerCreated("/customer/$customer_id", "Remitance Paid to $customer->name but Incentive DUE", \Auth::user()->name));
+            }
         } else {
-            Notification::send(User::all(), new CustomerCreated("/customer/$customer_id", "Remitance Paid to $customer->name", \Auth::user()->name));
+            foreach ($users as $user) {
+                $user->notify(new CustomerCreated("/customer/$customer_id", "Remitance Paid to $customer->name", \Auth::user()->name));
+            }
         }
 
         return redirect("/customer/$customer_id")->with('success', 'Remitance Successfully Added');
     }
 
-    
+
     public function show(Remitance $remitance)
     {
         //
     }
 
-    
+
     public function edit(Remitance $remitance)
     {
         return view('remitance.edit', compact('remitance'));
     }
 
-   
+
     public function update(Request $request, Remitance $remitance)
     {
         $remitance->update($request->only('incentive_amount', 'incentive_date'));
@@ -69,7 +84,7 @@ class RemitanceController extends Controller
         return redirect("/customer/$customer_id")->with('success', 'Incentive Successfully Paid');
     }
 
-    
+
     public function destroy(Remitance $remitance)
     {
         //
