@@ -67,7 +67,7 @@ class RemitanceController extends Controller
 
     public function show(Remitance $remitance)
     {
-        //
+        return view('remitance.show', compact('remitance'));
     }
 
 

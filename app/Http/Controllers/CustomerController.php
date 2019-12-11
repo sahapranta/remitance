@@ -69,18 +69,20 @@ class CustomerController extends Controller
 
     public function edit(Customer $customer)
     {
-        //
+        return view('customer.edit', compact('customer'));
     }
 
 
     public function update(Request $request, Customer $customer)
     {
-        //
+        $customer->update($request->only('name', 'mobile', 'address', 'passport_id', 'account_id'));
+        return redirect("/customer/$customer->id")->with('success', 'Customer successfully updated');
     }
 
 
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return redirect('/customer')->with('success', "$customer->name Successfully Deleted");
     }
 }

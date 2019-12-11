@@ -23,9 +23,9 @@
                             <h4><b>Passport ID: </b> {{$customer->passport_id}}</h4>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-block btn-primary">Edit</button>
+                            <a href="{{ route('customer.edit', $customer->id)}}" class="btn btn-block btn-primary">Edit</a>
                             <button class="btn btn-block btn-info">Pay Incentive</button>
-                            <button class="btn btn-block btn-secondary">Pay Remitance</button>
+                            <a href="{{route('remitance.create', ['customer'=>$customer->id])}}" class="btn btn-block btn-secondary">Pay Remitance</a>
                             <button class="btn btn-block btn-dark">Generate Report</button>
                             <button class="btn btn-block btn-danger">Delete</button>
                         </div>
@@ -60,6 +60,7 @@
                                         @else
                                             <a href="{{route('remitance.edit', $remitance->id)}}" class="btn btn-sm btn-outline-danger">Pay</a>
                                         @endif
+                                        <a href="{{route('remitance.show', $remitance->id)}}" class="btn btn-sm btn-outline-dark ml-1">view</a>
                                     </td>
                                 </tr>
                                 @empty
