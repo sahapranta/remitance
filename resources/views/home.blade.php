@@ -72,7 +72,7 @@
                                         class="fa fa-3x fa-cog mb-2 text-danger"
                                     ></i>
                                     <h5>
-                                        <a href="{{ route('customer.index') }}"
+                                        <a href="{{ route('settings') }}"
                                             >Settings</a
                                         >
                                     </h5>

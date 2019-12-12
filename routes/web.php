@@ -24,3 +24,6 @@ Route::post('/check', 'CustomerController@check')->name('check-customer');
 Route::get('/markasread', 'MarkAsReadController@read')->name('markAsRead');
 Route::get('/notifications', 'MarkAsReadController@index')->name('notifications');
 Route::delete('/notifications', 'MarkAsReadController@delete')->name('deleteNotification');
+
+Route::get('/settings', 'SettingsController@index')->name('settings');
+Route::post('/settings', 'SettingsController@store')->name('settings.store');

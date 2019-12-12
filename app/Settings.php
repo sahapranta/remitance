@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Settings extends Model
 {
-    protected $fillable = ['data'];
+    protected $fillable = ['data', 'name'];
     protected $casts = ['data' => 'array'];
 
     public function setDataAttributes($value)
