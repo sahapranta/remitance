@@ -11,7 +11,7 @@
                             >{{auth()->user()->notifications->count()}}</small
                         >
                     </h4>
-                    <a href="{{route('home')}}" class="btn btn-outline-warning">Home</a>
+                    <a href="{{route('home')}}" class="btn btn-outline-light">Home</a>
                 </div>
                 <div class="card-body">
                     <div class="list-group">

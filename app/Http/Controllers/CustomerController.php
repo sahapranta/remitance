@@ -13,7 +13,7 @@ class CustomerController extends Controller
 {
     public function check(Request $request)
     {
-        $search = $request->input('identification') || '';
+        $search = $request->input('identification') ?? '';
         $customers = Customer::query()
             ->where('nid', 'LIKE', "%{$search}%")
             ->orWhere('passport_id', 'LIKE', "%{$search}%")

@@ -72,6 +72,9 @@ class RemitanceController extends Controller
 
     public function edit(Remitance $remitance)
     {
+        if ($remitance->incentive_amount > 0) {
+            return redirect()->back()->with('danger', 'Incentive Already Paid');
+        }
         return view('remitance.edit', compact('remitance'));
     }
 

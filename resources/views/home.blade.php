@@ -21,6 +21,29 @@
                     <h4>Welcome!</h4>
                 </div>
                 <div class="card-body text-center">
+                    <form method="POST" action="{{ route('check-customer') }}">
+                        @csrf
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <input
+                                    type="text"
+                                    placeholder="Quick find Customer"
+                                    class="form-control @error('identification') is-invalid @enderror"
+                                    name="identification"
+                                    value="{{ old('identification') }}"
+                                    
+                                    autofocus
+                                />
+                                <div class="input-group-append">
+                                    <input
+                                        class="btn btn-outline-danger"
+                                        type="submit"
+                                        value="Check"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <div class="row menu">
                         <div class="col-md-3 mb-4">
                             <div class="card">
@@ -73,7 +96,7 @@
                                     ></i>
                                     <h5>
                                         <a href="{{ route('settings') }}"
-                                            >Settings</a
+                                            >Set Settings</a
                                         >
                                     </h5>
                                 </div>
@@ -148,7 +171,10 @@
                 <div class="card-header bg-danger text-white">
                     <h4>
                         Notifications
-                        <small class="badge badge-light">{{auth()->user()->notification_count}}</small>
+                        <small
+                            class="badge badge-light"
+                            >{{auth()->user()->notification_count}}</small
+                        >
                     </h4>
                 </div>
                 <div class="body">
@@ -167,20 +193,32 @@
                                     >{{ \Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</small
                                 >
                             </div>
-                            <small>Created by: {{$notification->data['user']}}</small>
+                            <small
+                                >Created by:
+                                {{$notification->data['user']}}</small
+                            >
                         </a>
                         @empty
-                        <a class="list-group-item list-group-item-action" href="#"
+                        <a
+                            class="list-group-item list-group-item-action"
+                            href="#"
                             >No New Notifications</a
                         >
                         @endforelse
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <a href="{{route('markAsRead')}}" class="btn btn-sm btn-dark mr-2">
+                    <a
+                        href="{{ route('markAsRead') }}"
+                        class="btn btn-sm btn-dark mr-2"
+                    >
                         Mark as Read
                     </a>
-                    <a href="{{route('notifications')}}" class="btn btn-sm btn-primary">View All</a>
+                    <a
+                        href="{{ route('notifications') }}"
+                        class="btn btn-sm btn-primary"
+                        >View All</a
+                    >
                 </div>
             </div>
         </div>

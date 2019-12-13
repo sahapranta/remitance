@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
-                            <h4>Check Customer</h4>
+                            <h4>All Customer</h4>
                             <a
                                 href="{{ route('customer.create') }}"
                                 class="btn btn-outline-dark shadow-sm"

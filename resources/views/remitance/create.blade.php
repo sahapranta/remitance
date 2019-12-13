@@ -6,7 +6,10 @@
         <div class="card">
             <div class="card-header bg-success text-white d-flex justify-content-between">
                 <h4>Pay Remitance</h4>
-                <a href="{{route('customer.index')}}" class="btn btn-dark">Back</a>
+                <div>
+                    <a href="{{ url()->previous() }}" class="btn btn-light mr-2">Back</a>
+                    <a href="{{ route('home') }}" class="btn btn-dark">Home</a>
+                </div>
             </div>
             <div class="card-body">
                 <form action="{{route('remitance.store')}}" method="POST" class="p-3">

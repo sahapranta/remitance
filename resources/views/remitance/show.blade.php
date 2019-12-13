@@ -1,6 +1,7 @@
 @extends('layouts.app') @section('content')
 <div class="container">
     <div class="justify-content-center">
+        @include('layouts._message')
         <div class="card">
             <div
                 class="card-header bg-dark text-white d-flex justify-content-between"
@@ -16,7 +17,14 @@
                     <span class="badge badge-pill badge-danger">Due</span>
                     @endunless
                 </h4>
-                <a href="{{ url()->previous() }}" class="btn btn-light">Back</a>
+                <div>
+                    <a href="{{ url()->previous() }}" class="btn btn-light mr-2"
+                        >Back</a
+                    >
+                    <a href="{{ route('home') }}" class="btn btn-success"
+                        >Home</a
+                    >
+                </div>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -133,17 +141,25 @@
                         </div>
                     </div>
                 </div>
-                <a href="" class="btn btn-outline-success col-md-1 mr-2" title="You Have No Permission">Edit</a>                
-                <a href="{{route('remitance.edit', $remitance->id)}}" class="btn btn-primary col-md-2">Pay Incentive</a>                
+                <a
+                    href=""
+                    class="btn btn-outline-success col-md-1 mr-2"
+                    title="You Have No Permission"
+                    >Edit</a
+                >
+                <a
+                    href="{{route('remitance.edit', $remitance->id)}}"
+                    class="btn btn-primary col-md-2"
+                    >Pay Incentive</a
+                >
                 <div class="float-right">
-                        <a href="#print" class="btn btn-outline-dark">Print</a>                
-                        <a href="#print" class="btn btn-outline-danger">SMS</a>                
+                    <a href="#print" class="btn btn-outline-dark">Print</a>
+                    <a href="#print" class="btn btn-outline-danger">SMS</a>
                 </div>
                 <p class="text-muted mt-3 border-top text-right">
                     By - {{$remitance->User->name}}
                     <i class="fa fa-clock-o"></i> {{$remitance->payment_date}}
-                </p>                
-                
+                </p>
             </div>
         </div>
     </div>

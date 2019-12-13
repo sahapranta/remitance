@@ -6,23 +6,27 @@
                 class="card-header bg-success text-white d-flex justify-content-between"
             >
                 <h4>Pay Incentive</h4>
-                <a href="{{ route('customer.index') }}" class="btn btn-dark"
-                    >Back</a
-                >
+                <div>
+                    <a href="{{ url()->previous() }}" class="btn btn-dark mr-2"
+                        >Back</a
+                    >
+                    <a href="{{ route('home') }}" class="btn btn-light"
+                        >Home</a
+                    >
+                </div>
             </div>
             <div class="card-body">
                 <form
                     action="{{route('remitance.update', $remitance->id)}}"
                     method="POST"
                 >
-                    @csrf
-                    @method('put')
+                    @csrf @method('put')
                     <div class="form-group">
                         <input
                             type="text"
                             class="form-control"
                             name="incentive_amount"
-                            value="{{ old('incentive_amount', bcdiv(floatval($remitance->amount )* 0.02, 1, 2)) }}"
+                            value="{{ old('incentive_amount', bcdiv(floatval($remitance->amount) * (config('global.incentive_percent')[0]/100), 1, 2)) }}"
                             required
                             autofocus
                         />

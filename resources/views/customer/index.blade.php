@@ -55,7 +55,14 @@
                                                     <div class="d-flex justify-content-center">
                                                         <a href="{{route('customer.show', $customer->id)}}" class="btn btn-sm mr-1 btn-outline-dark">View</a>
                                                         <a href="{{route('remitance.create', ['customer'=>$customer->id])}}" class="btn btn-sm mr-1 btn-outline-primary">Remitance</a>
-                                                        <button class="btn btn-sm btn-outline-danger">Incentive</button>
+                                                        @forelse($customer->Remitance as $remitance)
+                                                        @if($loop->last)
+                                                            @unless($remitance->incentive_amount > 0)                                                    
+                                                            <a href="{{route('remitance.edit', $remitance->id)}}" class="btn btn-sm btn-outline-danger">Incentive</a>
+                                                            @endunless
+                                                        @endif
+                                                        @empty
+                                                        @endforelse
                                                     </div>
                                                 </td>
                                             </tr>
