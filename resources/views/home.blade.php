@@ -160,7 +160,7 @@
                             class="list-group-item list-group-item-action"
                         >
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">
+                                <h5 class="mb-1 text-truncate">
                                     {{$notification->data['data']}}
                                 </h5>
                                 <small

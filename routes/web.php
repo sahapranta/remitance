@@ -27,3 +27,4 @@ Route::delete('/notifications', 'MarkAsReadController@delete')->name('deleteNoti
 
 Route::get('/settings', 'SettingsController@index')->name('settings');
 Route::post('/settings', 'SettingsController@store')->name('settings.store');
+Route::put('/settings/{settings}', 'SettingsController@update')->name('settings.update');

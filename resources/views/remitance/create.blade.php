@@ -12,24 +12,29 @@
                 <form action="{{route('remitance.store')}}" method="POST" class="p-3">
                     @csrf
                     <input type="hidden" name="customer_id" value="{{ app('request')->input('customer')}}">                    
-                    <remitance-select></remitance-select>
-                    <div class="form-group">
-                        <input type="text" placeholder="Reference" class="form-control @error('reference') is-invalid @enderror"
-                            name="reference" value="{{ old('reference') }}" required autocomplete="reference">
-                        @error('reference')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                    <div class="form-group">                        
-                            <rmcountry-select/>
-        
-                        @error('sending_country')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
+                    <remitance-select :spotcash="{{json_encode(config('global.spot_cash'))}}" :coc="{{json_encode(config('global.coc'))}}"></remitance-select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" placeholder="Reference" class="form-control @error('reference') is-invalid @enderror"
+                                    name="reference" value="{{ old('reference') }}" required autocomplete="reference">
+                                @error('reference')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>                                    
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">                        
+                                <rmcountry-select/>                
+                                @error('sending_country')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <input type="text" placeholder="Sender Name" class="form-control @error('sender') is-invalid @enderror"
@@ -41,7 +46,7 @@
                         @enderror
                     </div>
 
-                    <remitance-amount ></remitance-amount >
+                    <remitance-amount :percent="{{config('global.incentive_percent')[0]}}" ></remitance-amount >
 
                     <div class="row">
                         <div class="col-6">

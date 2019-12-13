@@ -9,15 +9,19 @@ class Settings extends Model
     protected $fillable = ['data', 'name'];
     protected $casts = ['data' => 'array'];
 
-    public function setDataAttributes($value)
+    public function setDataAttribute($value)
     {
         $data = [];
-
-        foreach ($value as $arr) {
-            if (!is_null($arr['key'])) {
+        foreach ($value as $key => $arr) {
+            if (!is_null($arr)) {
                 $data[] = $arr;
             }
         }
         $this->attributes['data'] = json_encode($data);
+    }
+
+    public function getMoreThanOneAttribute()
+    {
+        return count($this->data) > 1 ? true : false;
     }
 }

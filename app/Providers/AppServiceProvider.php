@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Settings;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        config([
+            'global' => Settings::all([
+                'name', 'data'
+                ])
+                ->keyBy('name')
+                ->transform(function ($setting) {return $setting->data; })
+                ->toArray()
+        ]);
     }
 }

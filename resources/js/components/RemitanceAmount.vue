@@ -18,7 +18,7 @@
                 v-model="amount"
                 required
                 autocomplete="amount"
-              >
+              />
             </div>
           </div>
           <div class="col-md-6">
@@ -30,7 +30,7 @@
                 required
                 autocomplete="payment_date"
                 v-model="date"
-              >
+              />
             </div>
           </div>
         </div>
@@ -49,27 +49,28 @@
                 class="form-control"
                 name="incentive_amount"
                 v-model="incentive"
-              >
+              />
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <input type="date" class="form-control" name="incentive_date">
+              <input type="date" class="form-control" name="incentive_date" />
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- <div class="d-none">{{incentives}}</div> -->
+    <!-- <div class="d-none">{{incentiveC}}</div> -->
   </div>
 </template>
 
 <script>
 export default {
+  props:['percent'],
   data() {
     return {
       amount: "",
-    //   incentive: "",
+      incentive: "",
       date: new Date().toISOString().slice(0, 10)
     };
   },
@@ -78,17 +79,17 @@ export default {
       return num.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
     }
   },
-  computed: {
-    incentive() {
+  watch: {
+    amount(val, newValue) {
       let num = parseFloat(this.amount) || 0;
-    //   this.incentive = this.calc(num * 0.02);
-    //   return this.incentive;
-        return this.calc(num * 0.02);
-    },
+      this.incentive = this.calc(num * (this.percent/100));
+    }
+  },
+  computed: {
     total() {
-        let num = parseFloat(this.amount) || 0;
-        let incent = parseFloat(this.incentive) || 0;
-      return num + incent > 0 ? this.calc(num + incent) : '' ;
+      let num = parseFloat(this.amount) || 0;
+      let incent = parseFloat(this.incentive) || 0;
+      return num + incent > 0 ? this.calc(num + incent) : "";
     }
   }
 };

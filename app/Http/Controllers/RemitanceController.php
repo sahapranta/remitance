@@ -6,7 +6,6 @@ use App\Remitance;
 use App\Customer;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\CustomerCreated;
 
 class RemitanceController extends Controller
@@ -19,7 +18,7 @@ class RemitanceController extends Controller
 
 
     public function create()
-    {
+    {        
         return view('remitance.create');
     }
 
