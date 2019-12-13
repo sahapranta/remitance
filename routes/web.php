@@ -28,3 +28,9 @@ Route::delete('/notifications', 'MarkAsReadController@delete')->name('deleteNoti
 Route::get('/settings', 'SettingsController@index')->name('settings');
 Route::post('/settings', 'SettingsController@store')->name('settings.store');
 Route::put('/settings/{settings}', 'SettingsController@update')->name('settings.update');
+
+// Report Priniting
+Route::get('/report/index', 'ReportController@index')->name('report.index');
+Route::get('/report/remitance/{remitance}', 'ReportController@remitance')->name('report.remitance');
+Route::get('/report/remitance/{remitance}/sms', 'ReportController@remitance_sms')->name('report.remitance-sms');
+Route::get('/report/customer/{customer}', 'ReportController@customer')->name('report.customer');

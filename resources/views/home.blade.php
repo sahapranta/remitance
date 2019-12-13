@@ -106,12 +106,12 @@
                             <div class="card">
                                 <div class="card-body">
                                     <i
-                                        class="fa fa-3x fa-cog mb-2"
+                                        class="fa fa-3x fa-file mb-2"
                                         style="color:var(--pink)"
                                     ></i>
                                     <h5>
-                                        <a href="{{ route('customer.index') }}"
-                                            >Settings</a
+                                        <a href="{{ route('report.index') }}"
+                                            >Report</a
                                         >
                                     </h5>
                                 </div>

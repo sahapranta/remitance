@@ -26,7 +26,7 @@
                             <a href="{{ route('customer.edit', $customer->id)}}" class="btn btn-block btn-primary">Edit</a>
                             <button class="btn btn-block btn-info">Pay Incentive</button>
                             <a href="{{route('remitance.create', ['customer'=>$customer->id])}}" class="btn btn-block btn-secondary">Pay Remitance</a>
-                            <button class="btn btn-block btn-dark">Generate Report</button>
+                            <a href="{{route('report.customer', $customer->id)}}" class="btn btn-block btn-dark">Generate Report</a>
                             <button class="btn btn-block btn-danger">Delete</button>
                         </div>
                     </div>

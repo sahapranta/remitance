@@ -153,8 +153,8 @@
                     >Pay Incentive</a
                 >
                 <div class="float-right">
-                    <a href="#print" class="btn btn-outline-dark">Print</a>
-                    <a href="#print" class="btn btn-outline-danger">SMS</a>
+                    <a href="{{route('report.remitance', $remitance->id)}}" class="btn btn-outline-dark">Print</a>
+                    <a href="{{route('report.remitance-sms', $remitance->id)}}" class="btn btn-outline-danger">SMS</a>
                 </div>
                 <p class="text-muted mt-3 border-top text-right">
                     By - {{$remitance->User->name}}

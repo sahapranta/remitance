@@ -17,7 +17,7 @@ class Remitance extends Model
 
     public function Customer()
     {
-        return $this->belongsTo('App\Customer');
+        return $this->belongsTo('App\Customer')->withDefault();
     }
 
     public function getCreateDateAttribute()
