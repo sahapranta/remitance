@@ -55,14 +55,14 @@
                                                     <div class="d-flex justify-content-center">
                                                         <a href="{{route('customer.show', $customer->id)}}" class="btn btn-sm mr-1 btn-outline-dark">View</a>
                                                         <a href="{{route('remitance.create', ['customer'=>$customer->id])}}" class="btn btn-sm mr-1 btn-outline-primary">Remitance</a>
-                                                        @forelse($customer->Remitance as $remitance)
-                                                        @if($loop->last)
-                                                            @unless($remitance->incentive_amount > 0)                                                    
-                                                            <a href="{{route('remitance.edit', $remitance->id)}}" class="btn btn-sm btn-outline-danger">Incentive</a>
-                                                            @endunless
+                                                        @if(count($customer->unpaid_remitances))
+                                                        <a
+                                                            href="{{ route('remitance.all', $customer->id)}}"
+                                                            class="btn btn-sm btn-outline-danger"
+                                                        >
+                                                            Incentive
+                                                        </a>
                                                         @endif
-                                                        @empty
-                                                        @endforelse
                                                     </div>
                                                 </td>
                                             </tr>

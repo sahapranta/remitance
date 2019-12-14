@@ -11,8 +11,8 @@
                     <a href="{{route('customer.index')}}" class="btn btn-dark">Back</a>
                 </div>
                 <div class="card-body">
-                    <span class="text-muted">Created by: {{$customer->User->name}} | at: {{$customer->create_date}}</span>
-                    <div class="row">
+                    <span class="text-muted pb-3">Created by: {{$customer->User->name}} | at: {{$customer->create_date}}</span>
+                    <div class="row mt-2">
                         <div class="col-md-8">
                             <h4><b>Name: </b> {{$customer->name}}</h4>
                             <h4><b>Address: </b> {{$customer->address}}</h4>
@@ -24,7 +24,7 @@
                         </div>
                         <div class="col-md-4">
                             <a href="{{ route('customer.edit', $customer->id)}}" class="btn btn-block btn-primary">Edit</a>
-                            <button class="btn btn-block btn-info">Pay Incentive</button>
+                            <a href="{{ route('remitance.all', $customer->id)}}" class="btn btn-block btn-info">Pay Incentive</a>
                             <a href="{{route('remitance.create', ['customer'=>$customer->id])}}" class="btn btn-block btn-secondary">Pay Remitance</a>
                             <a href="{{route('report.customer', $customer->id)}}" class="btn btn-block btn-dark">Generate Report</a>
                             <button class="btn btn-block btn-danger">Delete</button>
@@ -55,12 +55,13 @@
                                     <td>{{$remitance->amount}}</td>
                                     <td>{{$remitance->incentive_amount}}</td>
                                     <td>
+                                    <a href="{{route('remitance.show', $remitance->id)}}" class="btn btn-sm btn-outline-dark mr-1">view</a>
                                         @if($remitance->incentive_amount > 0)
                                             <button class="btn btn-sm btn-danger" disabled>Paid</button>
                                         @else
-                                            <a href="{{route('remitance.edit', $remitance->id)}}" class="btn btn-sm btn-outline-danger">Pay</a>
-                                        @endif
-                                        <a href="{{route('remitance.show', $remitance->id)}}" class="btn btn-sm btn-outline-dark ml-1">view</a>
+                                            <a href="{{route('remitance.edit',  [$remitance->id, 'incentive'=>'true'])}}" class="btn btn-sm btn-outline-danger">Pay</a>
+                                        @endif                                        
+                                        <a href="" class="btn btn-sm btn-secondary ml-1">Print</a>
                                     </td>
                                 </tr>
                                 @empty

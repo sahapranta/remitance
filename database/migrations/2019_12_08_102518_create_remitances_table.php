@@ -29,6 +29,8 @@ class CreateRemitancesTable extends Migration
             $table->string('payment_type');            
             $table->string('payment_by');            
             $table->string('note')->nullable();           
+            $table->string('voucher_reference')->nullable();           
+            $table->string('incentive_voucher')->nullable();           
             $table->timestamps();         
         });
     }

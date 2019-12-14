@@ -11,9 +11,9 @@ class MarkAsReadController extends Controller
         return $this->middleware('auth');
     }
 
-    public function index()
-    {
-        return view('notifications');
+    public function index()    
+    {           
+        return view('notifications');        
     }
 
     public function read()

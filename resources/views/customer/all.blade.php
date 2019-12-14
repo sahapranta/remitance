@@ -54,11 +54,14 @@
                                                             class="btn btn-sm mr-1 btn-outline-primary"
                                                             >Remitance</a
                                                         >
-                                                        <button
+                                                        @if(count($customer->unpaid_remitances))
+                                                        <a
+                                                            href="{{ route('remitance.all', $customer->id)}}"
                                                             class="btn btn-sm btn-outline-danger"
                                                         >
                                                             Incentive
-                                                        </button>
+                                                        </a>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>

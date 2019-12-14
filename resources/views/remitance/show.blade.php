@@ -142,7 +142,7 @@
                     </div>
                 </div>
                 <a
-                    href=""
+                    href="{{route('remitance.edit', $remitance->id)}}"
                     class="btn btn-outline-success col-md-1 mr-2"
                     title="You Have No Permission"
                     >Edit</a

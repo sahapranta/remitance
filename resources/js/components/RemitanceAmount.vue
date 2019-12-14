@@ -18,7 +18,7 @@
                 v-model="amount"
                 required
                 autocomplete="amount"
-              />
+              >
             </div>
           </div>
           <div class="col-md-6">
@@ -29,11 +29,12 @@
                 name="payment_date"
                 required
                 autocomplete="payment_date"
-                v-model="date"
-              />
+                v-model="payment_date"
+              >
             </div>
           </div>
         </div>
+        <slot name="remitance"></slot>
       </div>
     </div>
 
@@ -49,12 +50,13 @@
                 class="form-control"
                 name="incentive_amount"
                 v-model="incentive"
-              />
+              >
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <input type="date" class="form-control" name="incentive_date" />
+              <input type="date" class="form-control" :class="incentive_date_error" name="incentive_date" v-model="incentive_date">
+              <slot name="incentive"></slot>
             </div>
           </div>
         </div>
@@ -66,12 +68,14 @@
 
 <script>
 export default {
-  props:['percent'],
+  props: ["percent", "predata", 'editmode'],
   data() {
     return {
       amount: "",
-      incentive: "",
-      date: new Date().toISOString().slice(0, 10)
+      incentive: "",      
+      payment_date:"",
+      incentive_date:""
+
     };
   },
   methods: {
@@ -82,7 +86,9 @@ export default {
   watch: {
     amount(val, newValue) {
       let num = parseFloat(this.amount) || 0;
-      this.incentive = this.calc(num * (this.percent/100));
+      if (this.editmode !== 'true') {
+        this.incentive = this.calc(num * (this.percent / 100));       
+      }
     }
   },
   computed: {
@@ -90,6 +96,21 @@ export default {
       let num = parseFloat(this.amount) || 0;
       let incent = parseFloat(this.incentive) || 0;
       return num + incent > 0 ? this.calc(num + incent) : "";
+    },
+    incentive_date_error(){
+       return !!this.$slots.incentive ? 'is-invalid' : '' ;
+    }
+  },
+  mounted(){
+    if (this.predata.length>0) {
+      this.amount = this.predata[0] || '' ;
+      this.incentive = this.predata[1] || '' ;
+    }
+    if (this.editmode == 'true') {
+      this.payment_date = new Date(this.predata[2]).toISOString().slice(0, 10);
+      this.incentive_date = new Date(this.predata[3]).toISOString().slice(0, 10);
+    } else {      
+      this.payment_date = new Date().toISOString().slice(0, 10);
     }
   }
 };

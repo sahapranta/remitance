@@ -29,6 +29,11 @@ Route::get('/settings', 'SettingsController@index')->name('settings');
 Route::post('/settings', 'SettingsController@store')->name('settings.store');
 Route::put('/settings/{settings}', 'SettingsController@update')->name('settings.update');
 
+// Multiple Remitance
+Route::get('/remitance/{customer}/all', 'RemitanceController@pay_all_incentive')->name('remitance.all');
+Route::post('/remitance/{customer}/payall', 'RemitanceController@pay_multiple_incentive')->name('remitance.payall');
+
+
 // Report Priniting
 Route::get('/report/index', 'ReportController@index')->name('report.index');
 Route::get('/report/remitance/{remitance}', 'ReportController@remitance')->name('report.remitance');

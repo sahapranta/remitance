@@ -77,7 +77,7 @@
             @endif
 
             <div class="content">
-                <img src="image/agrani_bank.jpg" alt="image" width="680">
+                <img src="image/agrani_bank.jpg" alt="image" width="350">
                 <div class="title m-b-md">
                     Jhalam Bazar Branch, Cumilla
                 </div>

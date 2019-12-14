@@ -1,123 +1,84 @@
 @extends('layouts.app') @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-2">
+                    <img src="{{asset('image/logo.png')}}" alt="logo" class="img-fluid pl-5 pr-2" />
+                </div>
+                <div class="col-md-10">
+                    <h1>AGRANI BANK LIMITED</h1>
+                    <h5>JHALAM BAZAR BRANCH, CUMILLA MOB: 01819-412930, 01713-253464</h5>
+                </div>
+            </div>
+            <hr style="border: 1px solid var(--green); border-radius: 5px;" />
+            <h5 class="float-right text-muted">{{strtoupper($remitance->remit_type)}} #{{$remitance->voucher_reference}}</h5>
+            <h5 style="color:chocolate;">Date: {{date('F d, Y', strtotime($remitance->payment_date))}}</h5>
+
+            <div class="row mt-5 ml-2">
+                <div class="col-6">
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table borderless" style="font-size:1rem;">
                             <tbody>
                                 <tr>
                                     <td>
-                                        <b>Reference: </b>#
+                                        <b>NAME:</b>
+                                        {{$remitance->Customer->name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>NATIONAL ID:</b>
+                                        {{$remitance->Customer->identification}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>MOBILE:</b>
+                                        {{$remitance->Customer->mobile}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>REFERENCE:</b>
                                         {{$remitance->reference}}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <b>Payment Date: </b>
-                                        <i class="fa fa-clock-o"></i>
-                                        {{$remitance->payment_date}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Sending Country: </b>
-                                        {{$remitance->sending_country}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Sender: </b>
+                                        <b>SENDER NAME:</b>
                                         {{$remitance->sender}}
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <tbody>
                                 <tr>
                                     <td>
-                                        <b>Remitance Type:</b>
-                                        {{$remitance->remit_type}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Exchange House:</b>
-                                        {{$remitance->exchange_house}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Payment By:</b>
-                                        {{$remitance->payment_by}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Payment Type:</b>
-                                        {{$remitance->payment_type}}
+                                        <b>SENDING COUNTRY:</b>
+                                        {{$remitance->sending_country}}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <b>Total Paid: </b>
-                                        <span
-                                            class="text-danger"
-                                            >{{number_format($remitance->amount + $remitance->incentive_amount, 2)}}</span
-                                        >
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Amount: </b>
-                                        <span
-                                            class="text-danger"
-                                            >{{number_format($remitance->amount, 2)}}</span
-                                        >
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Incentive Amount: </b>
-                                        {!! $remitance->incentive_amount > 0 ?
-                                        number_format($remitance->incentive_amount,
-                                        2) : '<span class="text-danger"
-                                            >Not Paid</span
-                                        >' !!}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Incentive Payment: </b>
-                                        {!! $remitance->incentive_amount > 0 ?
-                                        $remitance->incentive_date : '<span
-                                            class="text-danger"
-                                            >Not Paid</span
-                                        >' !!}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="col-6">
+                    <div class="border border-dark border-2 p-2 mr-4">
+                        <h2><b>REMITANCE:</b> <span class="text-right">{{number_format($remitance->amount, 2)}}</span></h2>
+                        <h2><b>INCENTIVE:</b> <span class="text-right">{{number_format($remitance->incentive_amount, 2)}}</span></h2>
+                        <hr>
+                        <h2><b>TOTAL:</b> <span class="text-right">{{number_format(($remitance->amount + $remitance->incentive_amount), 2)}}</span></h2>                        
                     </div>
                 </div>
             </div>
+            <div class="mt-4">
+                <h4 class="text-muted text-center">অঙ্গীকারনামা</h4>
+                <p style="text-align:justify;" class="px-4 mt-2">
+আমি, ROBIN KUMAR SAHA এই মর্মে অঙ্গীকার করছি যে, অদ্য SEPTEMBER 14, 2019 তারিখে   এক্সচেঞ্জ হাউজের রেফারেন্স নং 33TF506088997 এর বিপরীতে রেমিট্যান্সের টাকা 125000.00 এর 2% হিসেবে 2500.00 টাকা প্রণোদনা/নগদ সহায়তা গ্রহন করিলাম। এক্ষেত্রে প্রাপ্যতার অতিরিক্ত অর্থ গ্রহন বা অন্য কোনো অনিয়ম পরবর্তীতে পাওয়া গেলে আমার বিরুদ্ধে আইনানুগ ব্যবস্থা গ্রহন করা যাবে এবং আমি গৃহীত অর্থ ফেরত প্রদানে বাধ্য থাকিব।
+
+                </p>
+            </div>
 
             <div style="position: fixed; bottom:0;">
-               <small class="text-muted text-right">Generated By: {{auth()->user()->name}} | {{date('D d-M-Y ')}}</small>
+                <p class="text-muted text-right">Generated By: {{auth()->user()->name}} | {{date('D d-M-Y ')}}</p>
             </div>
         </div>
     </div>

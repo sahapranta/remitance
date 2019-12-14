@@ -24,7 +24,7 @@
                     >
                     <a
                         href="{{ route('home') }}"
-                        class="btn btn-outline-primary"
+                        class="btn btn-primary"
                         >Home</a
                     >
                 </div>

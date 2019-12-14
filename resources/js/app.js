@@ -7,7 +7,8 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
+import BootstrapVue from 'bootstrap-vue';
+Vue.use(BootstrapVue);
 
 /**
  * The following block of code may be used to automatically register your
@@ -24,6 +25,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('remitance-select', require('./components/RemitanceSelect.vue').default);
 Vue.component('rmcountry-select', require('./components/RmCountrySelect.vue').default);
 Vue.component('remitance-amount', require('./components/RemitanceAmount.vue').default);
+Vue.component('multiple-incentive', require('./components/MultipleIncentive.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

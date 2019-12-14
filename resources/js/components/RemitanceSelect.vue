@@ -21,16 +21,11 @@
 
 <script>
     export default {
-        props:['spotcash', 'coc'],
+        props:['spotcash', 'coc', 'predata'],
         data(){
             return {
                 remit_type: ['SpotCash', 'COC', 'QRemit', 'Online'],
-                house_type: {
-                    'spotcash' : this.spotcash,
-                    'coc' : this.coc,
-                    'qremit' : ['qremit'],
-                    'online' : ['online'],
-                },                
+                house_type: '',                
                 selected_remit: '',
                 selected_house: '',
             }
@@ -41,7 +36,16 @@
             }
         },
         mounted() {
-
+            this.house_type = {
+                    'spotcash' : this.spotcash,
+                    'coc' : this.coc,
+                    'qremit' : ['qremit'],
+                    'online' : ['online'],
+                };
+            if (this.predata.length === 2) {
+                this.selected_remit = this.predata[0];
+                this.selected_house = this.predata[1];
+            }
         }
     }
 </script>

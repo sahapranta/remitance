@@ -1,118 +1,29 @@
-@extends('layouts.app') @section('css')
-<link
-    rel="stylesheet"
-    href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"
-/>
-<link
-    rel="stylesheet"
-    href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
-/>
-<link
-    rel="stylesheet"
-    href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css"
-/>
-<script>
-    function make_script(link) {
-        let script = document.createElement("script");
-        script.src = link;
-        document.body.appendChild(script);
-    }
-
-    window.onload = () => {
-        make_script(
-            "http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"
-        );
-
-        setTimeout(() => {
-            make_script(
-                "https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
-            );
-            make_script(
-                "https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"
-            );
-            make_script(
-                "https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"
-            );
-            make_script(
-                "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"
-            );
-            make_script(
-                "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"
-            );            
-            make_script(
-                "https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"
-            );
-            make_script(
-                "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"
-            );
-            make_script(
-                "https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"
-            );
-        }, 100);
-
-        setTimeout(() => {
-            if (!$.fn.DataTable.isDataTable("#myTable")) {
-                $("#myTable").dataTable({
-                    responsive: true,
-                    dom: "Bfrtip",
-                    buttons: ["copy", "csv", "excel", "pdf", "print"]                   
-                });
-            }
-        }, 2000);
-    };
-</script>
-@endsection @section('content')
+@extends('layouts.app')
+@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table text-nowrap" id="myTable">
-                    <thead>
-                        <tr>
-                            <td>#</td>
-                            <td>Customer</td>
-                            <td>Reference</td>
-                            <td>Country</td>
-                            <td>Sender</td>
-                            <td>Remitance Type</td>
-                            <td>Amount</td>
-                            <td>Incentive</td>
-                            <td>Payment Date</td>
-                            <td>Payment By</td>
-                            <td>Payment Type</td>
-                            <td>Paid By</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($remitances as $remitance)
-                        <tr>
-                            <td>{{$loop->index+1}}</td>
-                            <td>
-                                <a
-                                    href="{{route('customer.show', $remitance->Customer->id ?? 1)}}"
-                                    >{{$remitance->Customer->name}}</a
-                                >
-                            </td>
-                            <td>#{{$remitance->reference}}</td>
-                            <td>{{$remitance->sending_country}}</td>
-                            <td>{{$remitance->sender}}</td>
-                            <td>{{$remitance->remit_type}}</td>
-                            <td>{{$remitance->amount}}</td>
-                            <td>{{$remitance->incentive_amount}}</td>
-                            <td>{{$remitance->payment_date}}</td>
-                            <td>{{$remitance->payment_by}}</td>
-                            <td>{{$remitance->payment_type}}</td>
-                            <td>{{$remitance->User->name}}</td>
-                        </tr>
-                        @empty @endforelse
-                    </tbody>
-                </table>
+            <div class="card">
+            <div
+                class="card-header bg-success d-flex justify-content-between"
+            >
+                <h4>Settings</h4>
+                <div class="">
+                    <a
+                        href="{{url()->previous()}}"
+                        class="btn btn-outline-light mr-2"
+                        >Back</a
+                    >
+                    <a
+                        href="{{ route('home') }}"
+                        class="btn btn-dark"
+                        >Home</a
+                    >
+                </div>
+                <div class="card-body">
+                    
+                </div>
             </div>
-            <div style="position: fixed; bottom:0;">
-                <p class="text-muted text-right">
-                    Generated By: {{auth()->user()->name}} |
-                    {{ date("D d-M-Y ") }}
-                </p>
             </div>
         </div>
     </div>
