@@ -139,12 +139,12 @@
                     এর বিপরীতে রেমিট্যান্সের টাকা
                     <span
                         class="dotted font-weight-bold"
-                        >{{number_format($remitance->amount, 2)}}</span
+                        >{{number_format($remitances->sum('amount'), 2)}}</span
                     >
-                    এর {{ config("global.incentive_percent")[0] }}% হিসেবে
+                    এর <b>{{ config("global.incentive_percent")[0] }}%</b> হিসেবে
                     <span
                         class="dotted font-weight-bold"
-                        >{{number_format($remitance->incentive_amount, 2)}}</span
+                        >{{number_format($remitances->sum('incentive_amount'), 2)}}</span
                     >
                     টাকা প্রণোদনা/নগদ সহায়তা গ্রহণ করিলাম। এক্ষেত্রে প্রাপ্যতার
                     অতিরিক্ত অর্থ গ্রহন বা অন্য কোনো অনিয়ম পরবর্তীতে পাওয়া গেলে
