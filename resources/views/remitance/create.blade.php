@@ -138,7 +138,10 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <textarea name="note" class="form-control" rows="2" placeholder="Any Note or Extra information if you want to keep..." maxlength="250">{{old('note')}}</textarea>
+                        <p class="form-text text-muted">Hey! You can only type 250 Charachter.</p>
+                    </div>
                     <div class="row mt-4">
                         <div class="col-md-3 col-6">
                             <input

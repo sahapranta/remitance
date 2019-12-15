@@ -39,3 +39,4 @@ Route::get('/report/index', 'ReportController@index')->name('report.index');
 Route::get('/report/remitance/{remitance}', 'ReportController@remitance')->name('report.remitance');
 Route::get('/report/remitance/{remitance}/sms', 'ReportController@remitance_sms')->name('report.remitance-sms');
 Route::get('/report/customer/{customer}', 'ReportController@customer')->name('report.customer');
+Route::get('/report/incentive/{customer}', 'ReportController@incentive')->name('report.incentive');

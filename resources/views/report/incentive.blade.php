@@ -4,7 +4,7 @@
         border-bottom: 2px dashed #525252;
     }
     .display_print {
-        display: none;        
+        display: none;
     }
     @media print {
         .display_print {
@@ -36,100 +36,86 @@
             </div>
             <hr style="border: 1px solid var(--green); border-radius: 5px;" />
             <h5 class="float-right text-muted">
-                {{strtoupper($remitance->remit_type)}}
-                #{{$remitance->voucher_reference}}
+                {{strtoupper($remitances[0]->remit_type)}}
+                #{{$remitances[0]->incentive_voucher}}
             </h5>
             <h5 style="color:chocolate;">
-                Date: {{date('F d, Y', strtotime($remitance->payment_date))}}
+                Date:
+                {{date('F d, Y', strtotime($remitances[0]->payment_date))}}
             </h5>
 
-            <div class="row ml-4" style="margin-top: 100px">
-                <div class="col-6">
-                    <div class="table-responsive">
-                        <table
-                            class="borderless"
-                            style="font-size:1.2rem; border-collapse:separate; border-spacing: 0 0.9rem;"
-                        >
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <b>NAME:</b>
-                                        {{$remitance->Customer->name}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>IDENTIFICATION:</b>
-                                        {{$remitance->Customer->identification}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>MOBILE:</b>
-                                        {{$remitance->Customer->mobile}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>REFERENCE:</b>
-                                        {{$remitance->reference}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>SENDER NAME:</b>
-                                        {{$remitance->sender}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>SENDING COUNTRY:</b>
-                                        {{$remitance->sending_country}}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div
-                        class="px-4 pt-4 mr-5 mt-4"
-                        style="border: 2px solid #000;"
+            <div class="mt-5">
+                <div class="table-responsive">
+                    <table
+                        class="borderless"
+                        style="font-size:1.2rem; border-collapse:separate; border-spacing: 0 0.9rem;"
                     >
-                        <table class="table">
-                            <tr class="borderless">
-                                <td><h3>REMITANCE</h3></td>
-                                <td><h3>:</h3></td>
+                        <tbody>
+                            <tr>
                                 <td>
-                                    <h3>
-                                        {{number_format($remitance->amount, 2)}}
-                                    </h3>
-                                </td>
-                            </tr>
-                            <tr class="borderless">
-                                <td><h3>INCENTIVE</h3></td>
-                                <td><h3>:</h3></td>
-                                <td>
-                                    <h3>
-                                        {{number_format($remitance->incentive_amount, 2)}}
-                                    </h3>
+                                    <b>NAME:</b>
+                                    {{$customer->name}}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <h3><b>TOTAL</b></h3>
-                                </td>
-                                <td><h3>:</h3></td>
-                                <td>
-                                    <h3>
-                                        {{number_format(($remitance->amount + $remitance->incentive_amount), 2)}}
-                                    </h3>
+                                    <b>IDENTIFICATION:</b>
+                                    {{$customer->identification}}
                                 </td>
                             </tr>
-                        </table>
-                    </div>
+                            <tr>
+                                <td>
+                                    <b>MOBILE:</b>
+                                    {{$customer->mobile}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <div class="mt-5 mx-3">
+                <table class="table" style="border:1px solid #000;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Sender</th>
+                            <th>Reference</th>
+                            <th>Date</th>
+                            <th>Exchange House</th>
+                            <th>Amount</th>
+                            <th>Incentive</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($remitances as $remitance)
+                        <tr>
+                            <td>{{$loop->index + 1}}</td>
+                            <td>{{$remitance->sender}}</td>
+                            <td>{{$remitance->reference}}</td>
+                            <td>{{$remitance->incentive_date}}</td>
+                            <td>
+                                {{$remitance->remit_type
+                                }}-{{$remitance->exchange_house}}
+                            </td>
+                            <td>{{number_format($remitance->amount, 2)}}</td>
+                            <td>
+                                {{number_format($remitance->incentive_amount, 2)}}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td><b>TOTAL</b></td>
+                            <td>
+                                {{number_format($remitances->sum('incentive_amount'), 2)}}
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
             <div style="margin-top: 100px">
                 <h3 class="text-muted text-center mb-4">অঙ্গীকারনামা</h3>
                 <p
@@ -139,7 +125,7 @@
                     আমি,
                     <span
                         class="dotted font-weight-bold"
-                        >{{$remitance->Customer->name}}</span
+                        >{{$customer->name}}</span
                     >
                     এই মর্মে অঙ্গীকার করছি যে, অদ্য
                     <span class="dotted font-weight-bold">{{

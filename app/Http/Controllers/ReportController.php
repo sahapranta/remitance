@@ -22,6 +22,13 @@ class ReportController extends Controller
     {
         return view('report.remitance', compact('remitance'));
     }
+
+    public function incentive(Request $request, Customer $customer)
+    {
+        $remitances = Remitance::where('customer_id', $customer->id)->where('incentive_voucher', $request->data)->get();
+        return view('report.incentive', compact('remitances', 'customer'));
+    }
+
     public function customer(Customer $customer)
     {
         return view('report.customer', compact('customer'));

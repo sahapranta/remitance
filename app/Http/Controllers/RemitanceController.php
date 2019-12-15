@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
-use App\Notifications\CustomerCreated;
-use App\Remitance;
 use App\User;
+use App\Customer;
+use App\Remitance;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use App\Notifications\CustomerCreated;
+use Illuminate\Support\Facades\Validator;
 
 class RemitanceController extends Controller
 {
@@ -18,25 +19,48 @@ class RemitanceController extends Controller
         //
     }
 
+    public function incentive_voucher($date)
+    {
+        $rem = DB::table('remitances')->where('incentive_date', date('Y-m-d', strtotime($date)))->get();
+        $inc = count($rem) + 1;
+        $number = str_pad($inc, 4, '0', STR_PAD_LEFT);
+        return (string) 'IN-' . date('Ymd') . '-' . $number;
+    }
+
     public function pay_all_incentive(Customer $customer)
-    {        
-        if (count($customer->unpaid_remitances)>0) {            
+    {
+        if (count($customer->unpaid_remitances) > 0) {
             return view('customer.pay_all', compact('customer'));
         } else {
             return redirect()->back()->with('danger', 'No Incentive Left for Paying');
         }
-    }    
+    }
 
     public function pay_multiple_incentive(Request $request, Customer $customer)
-    {        
-        $r = [];
-        foreach ($request->data as $val) {
-            $r[] = Remitance::where('id', $val['id'])->update([
-                'incentive_amount' =>$val['incentive_amount'],
-                'incentive_date' => date('Y-m-d', strtotime($val['incentive_date'])),
-            ]);     
+    {
+        if (count($request->data) > 0) {
+            $r = [];
+            $voucher_number = $this->incentive_voucher($request->data[0]['incentive_date']);
+            foreach ($request->data as $val) {
+                $r[] = Remitance::where('id', $val['id'])->update([
+                    'incentive_amount' => $val['incentive_amount'],
+                    'incentive_date' => date('Y-m-d', strtotime($val['incentive_date'])),
+                    'incentive_voucher' => $voucher_number
+                ]);
+            }
+
+            if (request()->ajax() || request()->wantsJson()) {
+                return response()->json($voucher_number, 201);
+            } else {
+                return redirect()->route('report.incentive', [$customer->id, 'data' => $voucher_number]);
+            }
+        } else {
+            if (request()->ajax() || request()->wantsJson()) {
+                return response()->json('404', 500);
+            } else {
+                return redirect()->back()->with('danger', 'No Item is Selected');
+            }
         }
-       return json_encode($r);
     }
 
     public function create()
@@ -60,7 +84,7 @@ class RemitanceController extends Controller
             'sender'          => 'required|string',
             'payment_type'    => 'required|string',
             'payment_by'      => 'required|string',
-            'note'            => 'nullable|string',
+            'note'            => 'nullable|string|max:250',
         ])->validate();
 
         $sa = Remitance::create(
@@ -117,7 +141,8 @@ class RemitanceController extends Controller
     public function update(Request $request, Remitance $remitance)
     {
         if ($request->query('incentive') === 'true') {
-            $remitance->update($request->only('incentive_amount', 'incentive_date'));
+            $voucher_number = $this->incentive_voucher($request->input('incentive_date'));
+            $remitance->update($request->only('incentive_amount', 'incentive_date') + ['incentive_voucher' => $voucher_number]);
             $customer_id = $remitance->Customer->id;
             return redirect("/customer/$customer_id")->with('success', 'Incentive Successfully Paid');
         } else {
@@ -126,7 +151,7 @@ class RemitanceController extends Controller
                 ->with('success', 'Remitance Successfully Updated');
         }
     }
-    
+
 
     public function destroy(Remitance $remitance)
     {

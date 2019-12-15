@@ -1,6 +1,6 @@
 @if(session('success'))
 <b-alert show dismissible variant="success">
-  <strong>Ooopps!</strong> {{session('danger')}}
+  <strong>Success</strong> {{session('success')}}
 </b-alert>
 @endif
 @if(session('danger'))

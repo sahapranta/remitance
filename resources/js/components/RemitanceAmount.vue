@@ -77,17 +77,12 @@ export default {
       incentive_date:""
 
     };
-  },
-  methods: {
-    calc(num) {
-      return num.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
-    }
-  },
+  },  
   watch: {
     amount(val, newValue) {
       let num = parseFloat(this.amount) || 0;
       if (this.editmode !== 'true') {
-        this.incentive = this.calc(num * (this.percent / 100));       
+        this.incentive = (num * (this.percent / 100)).toFixedNoRounding(2);       
       }
     }
   },
@@ -95,7 +90,7 @@ export default {
     total() {
       let num = parseFloat(this.amount) || 0;
       let incent = parseFloat(this.incentive) || 0;
-      return num + incent > 0 ? this.calc(num + incent) : "";
+      return num + incent > 0 ? (num + incent).toFixedNoRounding(2) : "";
     },
     incentive_date_error(){
        return !!this.$slots.incentive ? 'is-invalid' : '' ;

@@ -61,7 +61,7 @@
                                         @else
                                             <a href="{{route('remitance.edit',  [$remitance->id, 'incentive'=>'true'])}}" class="btn btn-sm btn-outline-danger">Pay</a>
                                         @endif                                        
-                                        <a href="" class="btn btn-sm btn-secondary ml-1">Print</a>
+                                        <a href="{{route('report.remitance', $remitance->id)}}" class="btn btn-sm btn-secondary ml-1">Print</a>
                                     </td>
                                 </tr>
                                 @empty

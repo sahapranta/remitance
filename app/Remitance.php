@@ -33,4 +33,5 @@ class Remitance extends Model
         $number = str_pad($inc, 4, '0', STR_PAD_LEFT);
         $this->attributes['voucher_reference'] = 'RM-' . date('Ymd') .'-'. $number;
     }
+        
 }
