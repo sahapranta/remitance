@@ -16,7 +16,26 @@ class RemitanceController extends Controller
 
     public function index()
     {
-        //
+        return view('remitance.entry');
+    }
+
+    public function prefilled_remitance(Request $request)
+    {
+        $id = $request->input('customer');
+        return redirect("/remitance/create?customer={$id}")->withInput($request->all());
+    }
+
+    public function data_entry()
+    {
+        $customer = Customer::query()
+                    ->where('nid', '==', request('data->nid'))
+                    ->orWhere('account_id', '==', request('data->nid'))
+                    ->orWhere('passport_id', '==', request('data->nid'))
+                    ->first();
+        if (!$customer == null) {            
+            return response()->json($customer, 200);
+        }
+        return response()->json('error', 404);        
     }
 
     public function incentive_voucher($date)

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <b-alert :show="showAlert">Get the Voucher <a :href="alertData">Print</a></b-alert>
+    <b-alert :show="showAlert">
+      Get the Voucher
+      <a :href="alertData">Print</a>
+    </b-alert>
     <div class="row">
       <div class="col-md-6">
         <b-table hover :items="items" selectable @row-selected="onRowSelected" responsive="sm"></b-table>
@@ -50,8 +53,8 @@ export default {
     return {
       selected_row: [],
       fields: ["id", "reference", "amount"],
-      showAlert:false,
-      alertData:""
+      showAlert: false,
+      alertData: ""
     };
   },
   methods: {
@@ -87,16 +90,18 @@ export default {
         })
         .then(res => {
           if (res.status === 201 || res.status === 200) {
-            this.$bvToast.toast("Toast body content", {
-              title: `Submitted Successfully`,
-              body:`${this.selected_row.length} Incentive paid of total ${this.total}tk`,
-              variant: "warning",
-              solid: true
-            });
+            this.$bvToast.toast(
+              `${this.selected_row.length} Incentive paid of total ${this.total}tk`,
+              {
+                title: `Submitted Successfully`,
+                variant: "warning",
+                solid: true
+              }
+            );
             console.log(res);
             console.log(res.data);
             this.showAlert = true;
-            let ids = this.selected_row.map(row=>row.id);
+            let ids = this.selected_row.map(row => row.id);
             this.alertData = `/report/incentive/${this.customer}?data=${res.data}`;
             // setTimeout(() => {
             //     window.location.href = `/customer/${this.customer}`;

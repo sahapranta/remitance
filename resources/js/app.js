@@ -37,6 +37,7 @@ Vue.component('remitance-select', require('./components/RemitanceSelect.vue').de
 Vue.component('rmcountry-select', require('./components/RmCountrySelect.vue').default);
 Vue.component('remitance-amount', require('./components/RemitanceAmount.vue').default);
 Vue.component('multiple-incentive', require('./components/MultipleIncentive.vue').default);
+Vue.component('check-record', require('./components/CheckRecord.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

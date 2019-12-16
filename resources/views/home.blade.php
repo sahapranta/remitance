@@ -12,6 +12,7 @@
         transform: skewX(0.5deg);
     }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.3/xlsx.full.min.js" integrity="sha256-ME1oxb2vK5SiiMtx+4oULIxCn2t84vyIKg3bp8Sw2gI=" crossorigin="anonymous"></script>
 @endsection @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -21,29 +22,36 @@
                     <h4>Welcome!</h4>
                 </div>
                 <div class="card-body text-center">
-                    <form method="POST" action="{{ route('check-customer') }}">
-                        @csrf
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                <input
-                                    type="text"
-                                    placeholder="Quick find Customer"
-                                    class="form-control @error('identification') is-invalid @enderror"
-                                    name="identification"
-                                    value="{{ old('identification') }}"
-                                    
-                                    autofocus
-                                />
-                                <div class="input-group-append">
-                                    <input
-                                        class="btn btn-outline-danger"
-                                        type="submit"
-                                        value="Check"
-                                    />
+                    <div class="row">
+                        <div class="col-md-8 col-sm-6">
+                            <form method="POST" action="{{ route('check-customer') }}">
+                                @csrf
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input
+                                            type="text"
+                                            placeholder="Quick find Customer"
+                                            class="form-control @error('identification') is-invalid @enderror"
+                                            name="identification"
+                                            value="{{ old('identification') }}"                                            
+                                            autofocus
+                                        />
+                                        <div class="input-group-append">
+                                            <input
+                                                class="btn btn-outline-danger"
+                                                type="submit"
+                                                value="Check"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                    </form>
+                        <div class="col-md-4">
+                            <check-record token="{{csrf_token()}}"></check-record>
+                        </div>
+                    </div>
+
                     <div class="row menu">
                         <div class="col-md-3 mb-4">
                             <div class="card">
@@ -121,13 +129,11 @@
                             <div class="card">
                                 <div class="card-body">
                                     <i
-                                        class="fa fa-3x fa-cog mb-2"
+                                        class="fa fa-3x fa fa-clone mb-2"
                                         style="color:var(--teal)"
                                     ></i>
                                     <h5>
-                                        <a href="{{ route('customer.index') }}"
-                                            >Settings</a
-                                        >
+                                        <a href="{{ route('remitance.index') }}">Record</a>
                                     </h5>
                                 </div>
                             </div>

@@ -46,9 +46,9 @@ class CustomerController extends Controller
             'birthdate' => 'required|date_format:Y-m-d|before:18 years ago',
             'mobile' => 'required|regex:/(01)[0-9]{9}/',
             'address' => 'nullable|string',
-            'nid' => 'required_without_all:passport_id,account_id|string|unique:customers',
-            'passport_id' => 'required_without_all:nid,account_id|string|unique:customers',
-            'account_id' => 'required_without_all:nid,passport_id|string|unique:customers',
+            'nid' => 'required_without_all:passport_id,account_id|unique:customers',
+            'passport_id' => 'required_without_all:nid,account_id|unique:customers',
+            'account_id' => 'required_without_all:nid,passport_id|unique:customers',
         ]) + ['user_id' => \Auth::id()]);
 
         $customer_id = $new_customer->id;
@@ -56,7 +56,12 @@ class CustomerController extends Controller
         foreach ($users as $user) {
             $user->notify(new CustomerCreated("/customer/$customer_id", "New Customer Created", \Auth::user()->name));
         }
-        return redirect("/customer/$customer_id")->with('success', 'New Customer Created');
+
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json($new_customer, 200);
+        } else {
+            return redirect("/customer/$customer_id")->with('success', 'New Customer Created');
+        }
     }
 
 
