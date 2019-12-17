@@ -145,7 +145,11 @@
                     <span class="dotted font-weight-bold">{{
                         strtoupper(date("F d, Y"))
                     }}</span>
-                    তারিখে এক্সচেঞ্জ হাউজের রেফারেন্স নং
+                    তারিখে 
+                    <span
+                        class="dotted font-weight-bold"
+                        >{{$remitance->exchange_house}}</span>
+                         এক্সচেঞ্জ হাউজের রেফারেন্স নং
                     <span
                         class="dotted font-weight-bold"
                         >{{$remitance->reference}}</span
@@ -158,11 +162,10 @@
                     এর {{ config("global.incentive_percent")[0] }}% হিসেবে
                     <span
                         class="dotted font-weight-bold"
-                        >{{number_format($remitance->incentive_amount, 2)}}</span
-                    >
+                        >{{number_format($remitance->incentive_amount, 2)}}</span>
                     টাকা প্রণোদনা/নগদ সহায়তা গ্রহণ করিলাম। এক্ষেত্রে প্রাপ্যতার
-                    অতিরিক্ত অর্থ গ্রহন বা অন্য কোনো অনিয়ম পরবর্তীতে পাওয়া গেলে
-                    আমার বিরুদ্ধে আইনানুগ ব্যবস্থা গ্রহন করা যাবে এবং আমি গৃহীত
+                    অতিরিক্ত অর্থ গ্রহণ বা অন্য কোনো অনিয়ম পরবর্তীতে পাওয়া গেলে
+                    আমার বিরুদ্ধে আইনানুগ ব্যবস্থা গ্রহণ করা যাবে এবং আমি গৃহীত
                     অর্থ ফেরত প্রদানে বাধ্য থাকিব।
                 </p>
             </div>
@@ -170,19 +173,19 @@
                 <table class="table borderless">
                     <tr>
                         <td><h5>স্বাক্ষর</h5></td>
-                        <td>: _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</td>
+                        <td><b>:</b> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</td>
                     </tr>
                     <tr>
                         <td><h5>নাম</h5></td>
                         <td>
-                            <h5>: {{$remitance->User->name}}</h5>
+                            <h5><b>:</b> {{$remitance->Customer->name}}</h5>
                         </td>
                     </tr>
                     <tr>
                         <td><h5>তারিখ</h5></td>
                         <td>
                             <h5 style="color:chocolate;">
-                                : {{$remitance->payment_date}}
+                                <b>:</b> {{$remitance->payment_date}}
                             </h5>
                         </td>
                     </tr>

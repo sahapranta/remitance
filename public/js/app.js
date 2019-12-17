@@ -2269,17 +2269,13 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             solid: true
           });
 
-          console.log(res);
-          console.log(res.data);
           _this.showAlert = true;
 
           var ids = _this.selected_row.map(function (row) {
             return row.id;
           });
 
-          _this.alertData = "/report/incentive/".concat(_this.customer, "?data=").concat(res.data); // setTimeout(() => {
-          //     window.location.href = `/customer/${this.customer}`;
-          // }, 2000);
+          _this.alertData = "/report/incentive/".concat(_this.customer, "?data=").concat(res.data);
         }
       })["catch"](function (err) {
         return console.log(err);

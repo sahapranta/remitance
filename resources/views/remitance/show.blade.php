@@ -148,7 +148,7 @@
                     >Edit</a
                 >
                 <a
-                    href="{{route('remitance.edit', $remitance->id)}}"
+                    href="{{route('remitance.edit', [$remitance->id, 'incentive'=>'true'])}}"
                     class="btn btn-primary col-md-2"
                     >Pay Incentive</a
                 >

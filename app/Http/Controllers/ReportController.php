@@ -25,7 +25,12 @@ class ReportController extends Controller
 
     public function incentive(Request $request, Customer $customer)
     {
-        $remitances = Remitance::where('customer_id', $customer->id)->where('incentive_voucher', $request->data)->get();
+        $remitances = Remitance::where('customer_id', $customer->id)
+            ->where('incentive_voucher', $request->data)
+            ->get();
+        if (!$remitances) {
+            return redirect()->back()->with('danger', 'Voucher not found in Database');
+        }
         return view('report.incentive', compact('remitances', 'customer'));
     }
 

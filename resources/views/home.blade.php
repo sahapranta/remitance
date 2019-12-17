@@ -5,11 +5,11 @@
         transition: 0.2s ease-in;
     }
     .menu .card:hover {
-        background: linear-gradient(to left, #f4fae3, #ffdddd);
-        box-shadow: 5px 5px 10px -5px rgba(20, 20, 20, 0.7);
-        border: 2px solid #b49f9f;
+        background: linear-gradient(to left, #f4fae3, #f8eaea);
+        box-shadow: 5px 5px 10px -5px rgba(94, 94, 94, 0.5);
+        /* border: 2px solid #b49f9f; */
         cursor: pointer;
-        transform: skewX(0.5deg);
+        /* transform: skewX(0.5deg); */
     }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.3/xlsx.full.min.js" integrity="sha256-ME1oxb2vK5SiiMtx+4oULIxCn2t84vyIKg3bp8Sw2gI=" crossorigin="anonymous"></script>

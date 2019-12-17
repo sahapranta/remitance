@@ -36,12 +36,12 @@
             </div>
             <hr style="border: 1px solid var(--green); border-radius: 5px;" />
             <h5 class="float-right text-muted">
-                {{strtoupper($remitances[0]->remit_type)}}
-                #{{$remitances[0]->incentive_voucher}}
+                {{strtoupper($remitances[0]->remit_type )}}
+                #{{$remitances[0]->incentive_voucher  }}
             </h5>
             <h5 style="color:chocolate;">
                 Date:
-                {{date('F d, Y', strtotime($remitances[0]->payment_date))}}
+                {{date('F d, Y', strtotime($remitances[0]->payment_date ))}}
             </h5>
 
             <div class="mt-5">
@@ -131,10 +131,13 @@
                     <span class="dotted font-weight-bold">{{
                         strtoupper(date("F d, Y"))
                     }}</span>
-                    তারিখে এক্সচেঞ্জ হাউজের রেফারেন্স নং
+                    তারিখে <span
+                    class="dotted font-weight-bold"
+                    > {{$remitances[0]->exchange_house}}</span>
+                     এক্সচেঞ্জ হাউজের রেফারেন্স নং
                     <span
                         class="dotted font-weight-bold"
-                        >{{$remitance->reference}}</span
+                        >{{$remitances[0]->reference}}</span
                     >
                     এর বিপরীতে রেমিট্যান্সের টাকা
                     <span
@@ -147,8 +150,8 @@
                         >{{number_format($remitances->sum('incentive_amount'), 2)}}</span
                     >
                     টাকা প্রণোদনা/নগদ সহায়তা গ্রহণ করিলাম। এক্ষেত্রে প্রাপ্যতার
-                    অতিরিক্ত অর্থ গ্রহন বা অন্য কোনো অনিয়ম পরবর্তীতে পাওয়া গেলে
-                    আমার বিরুদ্ধে আইনানুগ ব্যবস্থা গ্রহন করা যাবে এবং আমি গৃহীত
+                    অতিরিক্ত অর্থ গ্রহণ বা অন্য কোনো অনিয়ম পরবর্তীতে পাওয়া গেলে
+                    আমার বিরুদ্ধে আইনানুগ ব্যবস্থা গ্রহণ করা যাবে এবং আমি গৃহীত
                     অর্থ ফেরত প্রদানে বাধ্য থাকিব।
                 </p>
             </div>
@@ -161,14 +164,14 @@
                     <tr>
                         <td><h5>নাম</h5></td>
                         <td>
-                            <h5>: {{$remitance->User->name}}</h5>
+                            <h5>: {{$customer->name}}</h5>
                         </td>
                     </tr>
                     <tr>
                         <td><h5>তারিখ</h5></td>
                         <td>
                             <h5 style="color:chocolate;">
-                                : {{$remitance->payment_date}}
+                                : {{$remitances[0]->incentive_date}}
                             </h5>
                         </td>
                     </tr>

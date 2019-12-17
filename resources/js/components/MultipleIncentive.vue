@@ -98,14 +98,9 @@ export default {
                 solid: true
               }
             );
-            console.log(res);
-            console.log(res.data);
             this.showAlert = true;
             let ids = this.selected_row.map(row => row.id);
-            this.alertData = `/report/incentive/${this.customer}?data=${res.data}`;
-            // setTimeout(() => {
-            //     window.location.href = `/customer/${this.customer}`;
-            // }, 2000);
+            this.alertData = `/report/incentive/${this.customer}?data=${res.data}`;           
           }
         })
         .catch(err => console.log(err));
