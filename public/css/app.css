@@ -13727,3 +13727,19 @@ input[type=color].form-control:disabled {
   border: none;
 }
 
+.dotted {
+  border-bottom: 2px dashed #525252;
+}
+
+.display_print {
+  display: none;
+}
+
+@media print {
+  .display_print {
+    display: block;
+    position: fixed;
+    bottom: 0;
+  }
+}
+

@@ -14,6 +14,53 @@ class ReportController extends Controller
         return view('report.index', compact('remitances'));
     }
 
+    public function monthly_full(Request $request){
+        $date = strtotime($request->input('date'));
+        
+        $remitances = Remitance::query()
+                        ->whereYear('payment_date', date('Y', $date))
+                        ->whereMonth('payment_date', date('m', $date))
+                        ->where('remit_type', 'spotcash')
+                        ->where('payment_type', 'cash')
+                        ->orderBy('payment_date', 'asc')
+                        ->groupBy('remit_type')
+                        ->get()
+                        ->sum('amount');
+
+                        dd($remitances);
+        // return view('report.monthly_full', compact('date', 'remitances'));
+    }
+
+    public function monthly(Request $request)
+    {
+        $date = strtotime($request->input('date'));
+
+        $spotcash = Remitance::query()
+            ->whereYear('payment_date', date('Y', $date))
+            ->whereMonth('payment_date', date('m', $date))
+            ->where('remit_type', 'spotcash')
+            ->where('payment_type', 'cash')
+            ->get()
+            ->sum('amount');
+
+        $coc = Remitance::query()
+            ->whereYear('payment_date', date('Y', $date))
+            ->whereMonth('payment_date', date('m', $date))
+            ->where('remit_type', 'coc')
+            ->where('payment_type', 'cash')
+            ->get()
+            ->sum('amount');
+
+        $acpay = Remitance::query()
+            ->whereYear('payment_date', date('Y', $date))
+            ->whereMonth('payment_date', date('m', $date))
+            ->where('payment_type', 'transfer')
+            ->get()
+            ->sum('amount');
+
+        return view('report.monthly', compact('date', 'spotcash', 'coc', 'acpay'));
+    }
+
     public function remitance_sms(Remitance $remitance)
     {
         return redirect()->back()->with('success', "SMS sent to {$remitance->Customer->mobile}");

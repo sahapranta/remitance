@@ -1,20 +1,5 @@
-@extends('layouts.app') @section('css')
-<style>
-    .dotted {
-        border-bottom: 2px dashed #525252;
-    }
-    .display_print {
-        display: none;        
-    }
-    @media print {
-        .display_print {
-            display: block;
-            position: fixed;
-            bottom: 0;
-        }
-    }
-</style>
-@endsection @section('content')
+@extends('layouts.app')
+ @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-12">
