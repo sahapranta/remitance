@@ -103,10 +103,10 @@
                                     value="{{ old('payment_by') }}"
                                     required
                                 >
-                                    <option value="Branch"
+                                    <option value="branch"
                                         >Branch | Payment By</option
                                     >
-                                    <option value="Agent"
+                                    <option value="agent"
                                         >Agent | Payment By</option
                                     >
                                 </select>
@@ -123,10 +123,10 @@
                                     class="form-control @error('payment_by') is-invalid @enderror"
                                     name="payment_type"
                                 >
-                                    <option value="Cash"
+                                    <option value="cash"
                                         >Cash | Payment Type</option
                                     >
-                                    <option value="Transfer"
+                                    <option value="transfer"
                                         >Transfer | Payment Type</option
                                     >
                                 </select>

@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Customer;
-use App\Remitance;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 use App\Notifications\CustomerCreated;
+use App\Remitance;
+use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RemitanceController extends Controller
 {
@@ -28,21 +27,54 @@ class RemitanceController extends Controller
     public function data_entry()
     {
         $customer = Customer::query()
-                    ->where('nid', '==', request('data->nid'))
-                    ->orWhere('account_id', '==', request('data->nid'))
-                    ->orWhere('passport_id', '==', request('data->nid'))
-                    ->first();
-        if (!$customer == null) {            
+            ->where('nid', '==', request('data->nid'))
+            ->orWhere('account_id', '==', request('data->nid'))
+            ->orWhere('passport_id', '==', request('data->nid'))
+            ->first();
+        if (!$customer == null) {
             return response()->json($customer, 200);
         }
-        return response()->json('error', 404);        
+        return response()->json('error', 404);
     }
 
-    public function incentive_voucher($date)
+    public function remitance_voucher($type, $date)
     {
-        $rem = DB::table('remitances')->where('incentive_date', date('Y-m-d', strtotime($date)))->get();
-        $inc = count($rem) + 1;
-        $number = str_pad($inc, 4, '0', STR_PAD_LEFT);
+        $query = Remitance::query()
+            ->where('payment_date', date('Y-m-d', strtotime($date)));
+
+        if ($type === 'cash') {
+            $rem = $query
+                ->where('payment_type', $type)
+                ->get();
+            $inc = count($rem) + 1;
+            $number = str_pad($inc, 4, '0', STR_PAD_LEFT);
+        } else {
+            $rem = $query
+                ->where('payment_type', $type)
+                ->get();
+            $inc = count($rem) + 1;
+            $number = '1' . str_pad($inc, 3, '0', STR_PAD_LEFT);
+        }
+
+        return (string) 'RM-' . date('Ymd') . '-' . $number;
+    }
+
+    public function create_voucher($type, $date)
+    {
+        $rem = Remitance::query()
+            ->where('incentive_date', date('Y-m-d', strtotime($date)));
+        if ($type === 'cash') {
+            $rem->where('payment_type', $type)
+                ->get();                
+            $inc = count($rem) + 1;
+            $number = str_pad($inc, 4, '0', STR_PAD_LEFT);
+        } else {
+            $rem->where('payment_type', $type)
+                ->get();
+            $inc = count($rem) + 1;
+            $number = '1' . str_pad($inc, 3, '0', STR_PAD_LEFT);
+        }
+
         return (string) 'IN-' . date('Ymd') . '-' . $number;
     }
 
@@ -59,12 +91,14 @@ class RemitanceController extends Controller
     {
         if (count($request->data) > 0) {
             $r = [];
-            $voucher_number = $this->incentive_voucher($request->data[0]['incentive_date']);
+            $remitance = Remitance::where('id', $request->data[0]['id'])->first();
+            $voucher_number = $this->create_voucher($remitance->payment_type, $request->data[0]['incentive_date']);
+
             foreach ($request->data as $val) {
                 $r[] = Remitance::where('id', $val['id'])->update([
                     'incentive_amount' => $val['incentive_amount'],
                     'incentive_date' => date('Y-m-d', strtotime($val['incentive_date'])),
-                    'incentive_voucher' => $voucher_number
+                    'incentive_voucher' => $voucher_number,
                 ]);
             }
 
@@ -89,22 +123,28 @@ class RemitanceController extends Controller
 
     public function store(Request $request)
     {
-        $customer         = Customer::find($request->input('customer_id'));
-        $customer_id      = $customer->id;
+        $customer = Customer::find($request->input('customer_id'));
+        $customer_id = $customer->id;
         $incentive_amount = floatval($request->input('incentive_amount'));
 
         Validator::make($request->all(), [
-            'incentive_date'  => Rule::requiredIf($incentive_amount > 0),
-            'remit_type'      => 'required|string',
-            'exchange_house'  => 'required|string',
-            'reference'       => 'required|unique:remitances',
-            'payment_date'    => 'required|date',
+            'incentive_date' => Rule::requiredIf($incentive_amount > 0),
+            'remit_type' => 'required|string',
+            'exchange_house' => 'required|string',
+            'reference' => 'required|unique:remitances',
+            'payment_date' => 'required|date',
             'sending_country' => 'required|string',
-            'sender'          => 'required|string',
-            'payment_type'    => 'required|string',
-            'payment_by'      => 'required|string',
-            'note'            => 'nullable|string|max:250',
+            'sender' => 'required|string',
+            'payment_type' => 'required|string',
+            'payment_by' => 'required|string',
+            'note' => 'nullable|string|max:250',
         ])->validate();
+
+        if ($request->input('payment_type') === 'cash') {
+            $remitance_voucher = $this->remitance_voucher('cash', $request->input('payment_date'));
+        } else {
+            $remitance_voucher = $this->remitance_voucher('transfer', $request->input('payment_date'));
+        }
 
         $sa = Remitance::create(
             $request->only(
@@ -119,13 +159,14 @@ class RemitanceController extends Controller
                 'payment_by',
                 'note',
             ) + [
-                "customer_id"      => $customer_id,
-                "user_id"          => \Auth::id(),
-                'amount'           => floatval($request->input('amount')),
+                "customer_id" => $customer_id,
+                "user_id" => \Auth::id(),
+                'amount' => floatval($request->input('amount')),
                 'incentive_amount' => $incentive_amount,
-                'voucher_reference' => $request->input('payment_date'),
+                'voucher_reference' => $remitance_voucher,
             ]
         );
+
         $users = User::where('role', 1)->get();
         if ($incentive_amount <= 0) {
             foreach ($users as $user) {
@@ -170,7 +211,6 @@ class RemitanceController extends Controller
                 ->with('success', 'Remitance Successfully Updated');
         }
     }
-
 
     public function destroy(Remitance $remitance)
     {

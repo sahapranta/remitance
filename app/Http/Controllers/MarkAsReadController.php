@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MarkAsReadController extends Controller
 {
@@ -13,7 +14,7 @@ class MarkAsReadController extends Controller
 
     public function index()    
     {           
-        return view('notifications');        
+        return view('notifications');       
     }
 
     public function read()
