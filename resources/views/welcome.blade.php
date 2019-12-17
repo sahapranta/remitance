@@ -5,87 +5,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Agrani Bank Incentive Solution</title>
-        <link rel="shortcut icon" href="image/logo.png" type="image/x-icon">        
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 60px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
+        <link rel="shortcut icon" href="image/logo.png" type="image/x-icon">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
+    <body class="bg-dark">
+        <div class="container-fluid">
+                @if (Route::has('login'))
+                <div class="row p-5  mt-3 text-center">
+                    <div class="col-8 offset-2">
+                        <img src="image/agrani_bank.jpg" alt="image" class="img-fluid mt-5">
+                        <h1 class="mt-4 text-white">
+                            Jhalam Bazar Branch, Cumilla
+                        </h1>
+                    </div>
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}" class="btn btn-light btn-block col-6 mt-4">Home</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
-
+                        <div class="col-4 offset-2 mt-4">
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-block">Login</a>
+                        </div>
+                        <div class="col-4 mt-4">
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}" class="btn btn-light btn-block">Register</a>
                         @endif
+                        </div>
                     @endauth
                 </div>
             @endif
-
-            <div class="content">
-                <img src="image/agrani_bank.jpg" alt="image" width="350">
-                <div class="title m-b-md">
-                    Jhalam Bazar Branch, Cumilla
-                </div>
-
-                <div class="links">
-                    
-                </div>
-            </div>
         </div>
     </body>
 </html>
