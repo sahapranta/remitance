@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Faker\Generator as Faker;
 
 class MarkAsReadController extends Controller
 {
@@ -12,9 +12,13 @@ class MarkAsReadController extends Controller
         return $this->middleware('auth');
     }
 
-    public function index()    
+    public function index(Faker $faker)    
     {           
-        return view('notifications');       
+        // return view('notifications');   
+
+        dd($faker->dateTimeBetween('- 10 days', '+ 10 days')->format('Y-m-d'));
+        
+        
     }
 
     public function read()

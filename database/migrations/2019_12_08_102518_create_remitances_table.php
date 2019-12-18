@@ -24,7 +24,7 @@ class CreateRemitancesTable extends Migration
             $table->string('sending_country');
             $table->string('sender');
             $table->double('amount');            
-            $table->double('incentive_amount')->nullable();            
+            $table->double('incentive_amount')->default(0);            
             $table->date('incentive_date')->nullable();      
             $table->string('payment_type');            
             $table->string('payment_by');            

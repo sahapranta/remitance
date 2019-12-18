@@ -2453,7 +2453,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['spotcash', 'coc', 'predata'],
   data: function data() {
     return {
-      remit_type: ['SpotCash', 'COC', 'QRemit', 'Online'],
+      remit_type: ['spotcash', 'coc', 'qremit', 'online'],
       house_type: '',
       selected_remit: '',
       selected_house: ''
@@ -2461,7 +2461,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     houseType: function houseType() {
-      return this.house_type[this.selected_remit.toLowerCase()] || [];
+      return this.house_type[this.selected_remit] || [];
     }
   },
   mounted: function mounted() {
@@ -51951,7 +51951,7 @@ var render = function() {
             _vm._v(" "),
             _vm._l(_vm.remit_type, function(type, i) {
               return _c("option", { key: i, domProps: { value: type } }, [
-                _vm._v(_vm._s(type))
+                _vm._v(_vm._s(type.toUpperCase()))
               ])
             })
           ],

@@ -4,7 +4,7 @@
             <div class="form-group">
                 <select name="remit_type" class="form-control" v-model="selected_remit">
                     <option value="">Select Remitance Type</option>
-                    <option v-for="(type, i ) in remit_type" :value="type" :key="i">{{type}}</option>
+                    <option v-for="(type, i ) in remit_type" :value="type" :key="i">{{type.toUpperCase()}}</option>
                 </select>
             </div>
         </div>
@@ -24,7 +24,7 @@
         props:['spotcash', 'coc', 'predata'],
         data(){
             return {
-                remit_type: ['SpotCash', 'COC', 'QRemit', 'Online'],
+                remit_type: ['spotcash', 'coc', 'qremit', 'online'],
                 house_type: '',                
                 selected_remit: '',
                 selected_house: '',
@@ -32,7 +32,7 @@
         },        
         computed:{
             houseType:function(){                
-                return this.house_type[this.selected_remit.toLowerCase()] || [];
+                return this.house_type[this.selected_remit] || [];
             }
         },
         mounted() {

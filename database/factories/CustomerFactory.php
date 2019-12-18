@@ -20,7 +20,7 @@ $factory->define(Customer::class, function () {
     return [
         'name' => $faker->name,
         'address' => $faker->address,
-        'birthdate' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'birthdate' => $faker->date('Y-m-d', 'now'),
         'mobile' => $faker->phoneNumber,
         'nid' =>  $faker->ean8,
         'passport_id' =>  $faker->swiftBicNumber,

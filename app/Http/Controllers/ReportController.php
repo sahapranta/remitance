@@ -22,10 +22,11 @@ class ReportController extends Controller
                         ->whereMonth('payment_date', date('m', $date))
                         ->where('remit_type', 'spotcash')
                         ->where('payment_type', 'cash')
+                        ->selectRaw('SUM(amount) as total, payment_date')
+                        ->groupBy('payment_date')
                         ->orderBy('payment_date', 'asc')
-                        ->groupBy('remit_type')
-                        ->get()
-                        ->sum('amount');
+                        ->get();
+                        // ->sum('amount');
 
                         dd($remitances);
         // return view('report.monthly_full', compact('date', 'remitances'));
