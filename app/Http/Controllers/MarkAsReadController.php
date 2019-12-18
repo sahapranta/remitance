@@ -14,11 +14,7 @@ class MarkAsReadController extends Controller
 
     public function index(Faker $faker)    
     {           
-        // return view('notifications');   
-
-        dd($faker->dateTimeBetween('- 10 days', '+ 10 days')->format('Y-m-d'));
-        
-        
+        return view('notifications');
     }
 
     public function read()

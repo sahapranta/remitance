@@ -46,6 +46,7 @@ Route::get('/report/remitance/{remitance}', 'ReportController@remitance')->name(
 Route::get('/report/remitance/{remitance}/sms', 'ReportController@remitance_sms')->name('report.remitance-sms');
 Route::get('/report/customer/{customer}', 'ReportController@customer')->name('report.customer');
 Route::get('/report/incentive/{customer}', 'ReportController@incentive')->name('report.incentive');
+Route::get('/report/daily', 'ReportController@daily')->name('report.daily');
 Route::post('/report/monthly', 'ReportController@monthly')->name('report.monthly');
 Route::post('/report/monthlyfull', 'ReportController@monthly_full')->name('report.monthly.full');
 
