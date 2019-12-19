@@ -1,50 +1,46 @@
 @extends('layouts.app') @section('css')
-<style>
-    .dotted {
-        border-bottom: 2px dashed #525252;
-    }
-    .display_print {
-        display: none;
-    }
-    @media print {
-        .display_print {
-            display: block;
-            position: fixed;
-            bottom: 0;
-        }
-    }
-</style>
+<script>
+    let incentive = "{{request('data')}}";
+
+    window.onload = () => {
+        onkeydown = function(e) {
+            if (e.ctrlKey && e.keyCode == "P".charCodeAt(0)) {
+                e.preventDefault();
+                axios
+                    .post("/print/count", { incentive })
+                    .then(res => {
+                        if (res.data == true) {
+                            window.print();
+                        }
+                    })
+                    .catch(err => console.log(err));
+            }
+        };
+    };
+</script>
 @endsection @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-2">
-                    <img
-                        src="{{ asset('image/logo.png') }}"
-                        alt="logo"
-                        class="img-fluid pl-5 pr-2"
-                    />
-                </div>
-                <div class="col-md-10">
-                    <h1>AGRANI BANK LIMITED</h1>
-                    <h5>
-                        JHALAM BAZAR BRANCH, CUMILLA MOB: 01819-412930,
-                        01713-253464
-                    </h5>
-                </div>
-            </div>
-            <hr style="border: 1px solid var(--green); border-radius: 5px;" />
+            @include('layouts._reportheader')
             <h5 class="float-right text-muted">
                 {{strtoupper($remitances[0]->remit_type )}}
                 #{{$remitances[0]->incentive_voucher  }}
             </h5>
-            <h5 style="color:chocolate;">
+
+            <h5 style="color:#d2691e;">
                 Date:
                 {{date('F d, Y', strtotime($remitances[0]->payment_date ))}}
             </h5>
-
-            <div class="mt-5">
+            <div class="mt-5" style="position: relative;">
+                @if($remitances[0]->incentive_voucher_print>0)
+                <img
+                    src="{{ asset('image/duplicate.png') }}"
+                    alt="dup"
+                    class="img-thumbnail"
+                    style="position: absolute; opacity: 0.07; right:20%; top:-25%;"
+                />
+                @endif
                 <div class="table-responsive">
                     <table
                         class="borderless"
@@ -95,6 +91,8 @@
                             <td>{{$remitance->incentive_date}}</td>
                             <td>
                                 {{$remitance->remit_type
+
+
                                 }}-{{$remitance->exchange_house}}
                             </td>
                             <td>{{number_format($remitance->amount, 2)}}</td>
@@ -131,10 +129,11 @@
                     <span class="dotted font-weight-bold">{{
                         strtoupper(date("F d, Y"))
                     }}</span>
-                    তারিখে <span
-                    class="dotted font-weight-bold"
-                    > {{$remitances[0]->exchange_house}}</span>
-                     এক্সচেঞ্জ হাউজের রেফারেন্স নং
+                    তারিখে
+                    <span class="dotted font-weight-bold">
+                        {{$remitances[0]->exchange_house}}</span
+                    >
+                    এক্সচেঞ্জ হাউজের রেফারেন্স নং
                     <span
                         class="dotted font-weight-bold"
                         >{{$remitances[0]->reference}}</span
@@ -144,7 +143,8 @@
                         class="dotted font-weight-bold"
                         >{{number_format($remitances->sum('amount'), 2)}}</span
                     >
-                    এর <b>{{ config("global.incentive_percent")[0] }}%</b> হিসেবে
+                    এর
+                    <b>{{ config("global.incentive_percent")[0] }}%</b> হিসেবে
                     <span
                         class="dotted font-weight-bold"
                         >{{number_format($remitances->sum('incentive_amount'), 2)}}</span
@@ -155,7 +155,7 @@
                     অর্থ ফেরত প্রদানে বাধ্য থাকিব।
                 </p>
             </div>
-            <div style="margin-top: 100px;" class="float-right mr-5">
+            <div style="margin-top: 100px;" class="float-right mr-5 d-block">
                 <table class="table borderless">
                     <tr>
                         <td><h5>স্বাক্ষর</h5></td>
@@ -170,18 +170,26 @@
                     <tr>
                         <td><h5>তারিখ</h5></td>
                         <td>
-                            <h5 style="color:chocolate;">
+                            <h5 style="color:#d2691e;">
                                 : {{$remitances[0]->incentive_date}}
                             </h5>
                         </td>
                     </tr>
                 </table>
+
+                <h5 class="text-danger text-center"></h5>
             </div>
 
             <div class="display_print">
-                <p class="text-muted text-right">
+                <p class="text-muted">
                     Generated By: {{auth()->user()->name}} |
                     {{ date("D d-M-Y ") }}
+                    @if($remitances[0]->incentive_voucher_print>0)
+                    <span class="text-danger">
+                        Duplicate Print
+                        {{$remitances[0]->incentive_voucher_print}}
+                    </span>
+                    @endif
                 </p>
             </div>
         </div>

@@ -16,7 +16,7 @@
                 singleMonth: 'auto',
                 showTopbar: false,
                 showShortcuts: true,
-                endDate:moment(new Date()).format('YYYY-MM-DD'),                
+                endDate: moment(new Date()).format('YYYY-MM-DD'),
                 shortcuts: {
                     'prev-days': [3, 5, 7],
                     'prev': ['week', 'month'],
@@ -51,36 +51,59 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="d-block">
-                        <div class="form-group row">
-                            <form action="{{route('report.monthly')}}" method="post" class="col-md-6">
-                                @csrf
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-dark text-white">Monthly Total Report</span>
-                                    </div>
-                                    <input type="date" value="2019" class="form-control" name="date">
-                                    <div class="input-group-append">
-                                        <input type="submit" value="Submit" class="btn btn-danger">
-                                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header font-weight-bold">Monthly / Daily Report</div>
+                                <div class="card-body">                                    
+                                    <form method="get">
+                                        <div class="form-group">
+                                            <input type="date" value="{{date('Y-m-d')}}" class="form-control" name="date">
+                                        </div>
+                                        <div class="btn-group btn-block">
+                                            <input type="submit" value="Monthly" class="btn btn-outline-dark" formaction="{{route('report.monthly')}}">
+                                            <input type="submit" value="Daily" class="btn btn-dark" formaction="{{route('report.daily')}}">
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
-                            <form action="{{route('report.monthly.full')}}" method="post" class="col-md-6">
-                                @csrf
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-dark text-white">Date Wise Report</span>
-                                    </div>
-                                    <input type="text" id="daterange" class="form-control daterange" name="startdate" placeholder="Select Date">
-                                    <input type="text" id="daterange2" class="form-control daterange" name="enddate" placeholder="Range">
-                                    <div class="input-group-append">
-                                        <input type="submit" value="Submit" class="btn btn-danger">
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                    <a href="{{route('report.daily')}}" class="btn btn-primary">Daily Report</a>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header font-weight-bold">DateWise Remitance / Incentive</div>
+                                <div class="card-body">
+                                    <form method="post">
+                                        @csrf
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="daterange" class="form-control daterange" name="startdate" placeholder="Select Date">
+                                            <input type="text" id="daterange2" class="form-control daterange" name="enddate" placeholder="Range">
+                                        </div>
+                                        <div class="btn-group btn-block">
+                                            <input type="submit" value="Remitance" class="btn btn-outline-primary" formaction="{{route('report.date.remitance')}}">
+                                            <input type="submit" value="Incentive" class="btn btn-primary" formaction="{{route('report.date.incentive')}}">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header font-weight-bold">Re-Print Incentive Voucher</div>
+                                <div class="card-body">
+                                    <form action="{{}}" method="get">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Incentive Voucher Number" name="voucher" required />
+                                            <input type="text" class="form-control col-3" placeholder="ID" name="customer" required/>
+                                        </div>
+                                        <div class="btn-group btn-block">
+                                            <input type="reset" value="Reset" class="btn btn-outline-danger" >
+                                            <input type="submit" value="Submit" class="btn btn-danger">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
             </div>
         </div>

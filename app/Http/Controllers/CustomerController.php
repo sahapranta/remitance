@@ -6,7 +6,6 @@ use App\Customer;
 use App\User;
 use App\Remitance;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\CustomerCreated;
 
 class CustomerController extends Controller
@@ -21,7 +20,7 @@ class CustomerController extends Controller
             ->orWhere('name', 'LIKE', "%{$search}%")
             ->orWhere('mobile', 'LIKE', "%{$search}%")
             ->get();
-        // return compact('customer');
+            
         return view('customer.index', compact('customers'));
     }
 
@@ -46,9 +45,9 @@ class CustomerController extends Controller
             'birthdate' => 'required|date_format:Y-m-d|before:18 years ago',
             'mobile' => 'required|regex:/(01)[0-9]{9}/',
             'address' => 'nullable|string',
-            'nid' => 'required_without_all:passport_id,account_id|unique:customers',
-            'passport_id' => 'required_without_all:nid,account_id|unique:customers',
-            'account_id' => 'required_without_all:nid,passport_id|unique:customers',
+            'nid' => 'required_without_all:passport_id,account_id|nullable|unique:customers',
+            'passport_id' => 'required_without_all:nid,account_id|nullable|unique:customers',
+            'account_id' => 'required_without_all:nid,passport_id|nullable|unique:customers',
         ]) + ['user_id' => \Auth::id()]);
 
         $customer_id = $new_customer->id;

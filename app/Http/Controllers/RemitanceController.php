@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
-use App\Notifications\CustomerCreated;
-use App\Remitance;
 use App\User;
+use App\Customer;
+use App\Remitance;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Notifications\CustomerCreated;
+use Illuminate\Support\Facades\Validator;
 
 class RemitanceController extends Controller
 {
@@ -210,6 +210,20 @@ class RemitanceController extends Controller
             return redirect()->route('remitance.show', $remitance->id)
                 ->with('success', 'Remitance Successfully Updated');
         }
+    }
+
+
+
+    public function print_count(Request $request)
+    {
+        if ($request->input('incentive')) {
+            Remitance::where('incentive_voucher', $request->input('incentive'))->increment('incentive_voucher_print');
+            return "true";
+        } else {
+            Remitance::find($request->input('remitance'))->increment('voucher_print');
+            return "true";
+        }
+        return "false";
     }
 
     public function destroy(Remitance $remitance)

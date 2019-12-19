@@ -15,12 +15,12 @@ class ReportController extends Controller
         return view('report.index', compact('remitances'));
     }
 
-    public function monthly_full(Request $request)
+    public function datewise_remitance(Request $request)
     {
         $startdate = strtotime($request->input('startdate') ?? now());
         $enddate = strtotime($request->input('enddate') ?? now());
 
-        $daily_spotcash = Remitance::query()
+        $spotcash = Remitance::query()
             ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('remit_type', 'spotcash')
             ->where('payment_type', 'cash')
@@ -29,10 +29,12 @@ class ReportController extends Controller
             ->orderBy('payment_date', 'asc')
             ->get()
             ->keyBy('payment_date')
-            ->transform(function ($ac) {return $ac->acpay; })
+            ->transform(function ($ac) {
+                return $ac->spotcash;
+            })
             ->toArray();
 
-        $daily_coc = Remitance::query()
+        $coc = Remitance::query()
             ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('remit_type', 'coc')
             ->where('payment_type', 'cash')
@@ -41,25 +43,68 @@ class ReportController extends Controller
             ->orderBy('payment_date', 'asc')
             ->get()
             ->keyBy('payment_date')
-            ->transform(function ($ac) {return $ac->acpay; })
+            ->transform(function ($ac) {
+                return $ac->coc;
+            })
             ->toArray();
 
-        $daily_acpay = Remitance::query()
+        $acpay = Remitance::query()
             ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('payment_type', 'transfer')
+            ->where('remit_type', 'spotcash')
+            ->orWhere('remit_type', 'coc')
             ->selectRaw('SUM(amount) as acpay, payment_date')
             ->groupBy('payment_date')
             ->orderBy('payment_date', 'asc')
             ->get()
             ->keyBy('payment_date')
-            ->transform(function ($ac) {return $ac->acpay; })
+            ->transform(function ($ac) {
+                return $ac->acpay;
+            })
             ->toArray();
-        // ->sum('amount');
-        // dd($daily_acpay);
 
-        // dd([$daily_acpay, $daily_coc, $daily_spotcash]);
+
+        $qremit = Remitance::query()
+            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->where('remit_type', 'qremit')
+            ->selectRaw('SUM(amount) as qremit, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+            ->get()
+            ->keyBy('payment_date')
+            ->transform(function ($ac) {
+                return $ac->qremit;
+            })
+            ->toArray();
+
+        $online = Remitance::query()
+            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->where('remit_type', 'online')
+            ->selectRaw('SUM(amount) as online, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+            ->get()
+            ->keyBy('payment_date')
+            ->transform(function ($ac) {
+                return $ac->online;
+            })
+            ->toArray();
+
+        $agent = Remitance::query()
+            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->where('payment_by', 'agent')
+            ->selectRaw('SUM(amount) as agent, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+            ->get()
+            ->keyBy('payment_date')
+            ->transform(function ($ac) {
+                return $ac->agent;
+            })
+            ->toArray();
+
+
         $period = array();
-
         for (
             $currentDate = $startdate;
             $currentDate <= $enddate;
@@ -69,12 +114,111 @@ class ReportController extends Controller
             $Store = date('Y-m-d', $currentDate);
             $period[] = $Store;
         }
-        // $collection = collect($daily_acpay, $daily_coc, $daily_spotcash);        
 
-        // $datao = $collection->keyBy('payment_date');
-                
-        return view('report.datewise', compact('period', 'daily_acpay', 'daily_coc', 'daily_spotcash'));
-        // return view('report.monthly_full', compact('date', 'remitances'));
+        return view('report.datewise', compact('period', 'acpay', 'coc', 'spotcash', 'online', 'qremit', 'agent'));
+    }
+
+    public function datewise_incentive(Request $request)
+    {
+        $startdate = strtotime($request->input('startdate') ?? now());
+        $enddate = strtotime($request->input('enddate') ?? now());
+
+        $spotcash = Remitance::query()
+            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->where('remit_type', 'spotcash')
+            ->where('payment_type', 'cash')
+            ->selectRaw('SUM(incentive_amount) as spotcash, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+            ->get()
+            ->keyBy('payment_date')
+            ->transform(function ($ac) {
+                return $ac->spotcash;
+            })
+            ->toArray();
+
+        $coc = Remitance::query()
+            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->where('remit_type', 'coc')
+            ->where('payment_type', 'cash')
+            ->selectRaw('SUM(incentive_amount) as coc, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+            ->get()
+            ->keyBy('payment_date')
+            ->transform(function ($ac) {
+                return $ac->coc;
+            })
+            ->toArray();
+
+        $acpay = Remitance::query()
+            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->where('payment_type', 'transfer')
+            ->where('remit_type', 'spotcash')
+            ->orWhere('remit_type', 'coc')
+            ->selectRaw('SUM(incentive_amount) as acpay, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+            ->get()
+            ->keyBy('payment_date')
+            ->transform(function ($ac) {
+                return $ac->acpay;
+            })
+            ->toArray();
+
+
+        $qremit = Remitance::query()
+            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->where('remit_type', 'qremit')
+            ->selectRaw('SUM(incentive_amount) as qremit, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+            ->get()
+            ->keyBy('payment_date')
+            ->transform(function ($ac) {
+                return $ac->qremit;
+            })
+            ->toArray();
+
+        $online = Remitance::query()
+            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->where('remit_type', 'online')
+            ->selectRaw('SUM(incentive_amount) as online, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+            ->get()
+            ->keyBy('payment_date')
+            ->transform(function ($ac) {
+                return $ac->online;
+            })
+            ->toArray();
+
+        $agent = Remitance::query()
+            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->where('payment_by', 'agent')
+            ->selectRaw('SUM(incentive_amount) as agent, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+            ->get()
+            ->keyBy('payment_date')
+            ->transform(function ($ac) {
+                return $ac->agent;
+            })
+            ->toArray();
+
+
+        $period = array();
+        for (
+            $currentDate = $startdate;
+            $currentDate <= $enddate;
+            $currentDate += (86400)
+        ) {
+
+            $Store = date('Y-m-d', $currentDate);
+            $period[] = $Store;
+        }
+
+        return view('report.datewise', compact('period', 'acpay', 'coc', 'spotcash', 'online', 'qremit', 'agent'));
     }
 
     public function daily(Request $request)
@@ -86,7 +230,7 @@ class ReportController extends Controller
 
     public function monthly(Request $request)
     {
-        $date = strtotime($request->input('date'));
+        $date = strtotime($request->query('date') ?? now());
 
         $spotcash = Remitance::query()
             ->whereYear('payment_date', date('Y', $date))

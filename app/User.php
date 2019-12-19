@@ -49,4 +49,8 @@ class User extends Authenticatable
     public function getNotificationCountAttribute(){
         return $this->unreadNotifications->count();
     }
+
+    public function getIsAdminAttribute(){
+        return $this->role === 1;
+    }
 }

@@ -19,7 +19,7 @@
                         </h1>
                     </div>
                     @auth
-                        <a href="{{ url('/home') }}" class="btn btn-light btn-block col-6 mt-4">Home</a>
+                        <a href="{{ url('/home') }}" class="btn btn-light btn-block col-md-6  offset-md-3 col-sm-12 mt-4">Home</a>
                     @else
                         <div class="col-4 offset-2 mt-4">
                             <a href="{{ route('login') }}" class="btn btn-primary btn-block">Login</a>
