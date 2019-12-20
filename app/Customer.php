@@ -12,12 +12,12 @@ class Customer extends Model
 
     public function User()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withDefault();
     }
 
     public function Remitance()
     {
-        return $this->HasMany('App\Remitance');
+        return $this->HasMany('App\Remitance')->withDefault();
     }
 
     public function unpaid_remitances()

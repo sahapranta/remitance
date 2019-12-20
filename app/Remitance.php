@@ -13,7 +13,7 @@ class Remitance extends Model
 
     public function User()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withDefault();
     }
 
     public function Customer()
