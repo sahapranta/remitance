@@ -90,14 +90,14 @@
                             <div class="card">
                                 <div class="card-header font-weight-bold">Re-Print Incentive Voucher</div>
                                 <div class="card-body">
-                                    <form action="{{}}" method="get">
+                                    <form action="" method="get">
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" placeholder="Incentive Voucher Number" name="voucher" required />
                                             <input type="text" class="form-control col-3" placeholder="ID" name="customer" required/>
                                         </div>
                                         <div class="btn-group btn-block">
                                             <input type="reset" value="Reset" class="btn btn-outline-danger" >
-                                            <input type="submit" value="Submit" class="btn btn-danger">
+                                            <input type="button" value="Submit" class="btn btn-danger">
                                         </div>
                                     </form>
                                 </div>
