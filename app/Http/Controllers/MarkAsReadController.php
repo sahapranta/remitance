@@ -12,8 +12,8 @@ class MarkAsReadController extends Controller
         return $this->middleware('auth');
     }
 
-    public function index(Faker $faker)    
-    {           
+    public function index(Faker $faker)
+    {
         return view('notifications');
     }
 
@@ -26,10 +26,18 @@ class MarkAsReadController extends Controller
     public function delete(Request $request)
     {
         if ($request->isMethod('delete')) {
-            auth()->user()->readNotifications()->delete();
-            return redirect()->back();
+            if (auth()->user()->notifications->count() > 0) {
+                if (auth()->user()->readNotifications()->count() > 0) {
+                    auth()->user()->readNotifications()->delete();
+                    return redirect()->back()->with('success', "Notifications Successfully Deleted");
+                } else {
+                    return redirect()->back()->with('success', "Notifications can be deleted after Marking as Read");
+                }
+            } else {
+                return redirect()->back()->with('success', "You have No Notifications to Delete");                
+            }
         } else {
-            return redirect()->back()->with('success', 'Try Again');
+            return redirect()->back()->with('danger', 'Try Again');
         }
     }
 }

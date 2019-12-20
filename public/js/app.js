@@ -64230,12 +64230,12 @@ Number.prototype.toFixedNoRounding = function (n) {
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 
-Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-Vue.component('remitance-select', __webpack_require__(/*! ./components/RemitanceSelect.vue */ "./resources/js/components/RemitanceSelect.vue")["default"]);
-Vue.component('rmcountry-select', __webpack_require__(/*! ./components/RmCountrySelect.vue */ "./resources/js/components/RmCountrySelect.vue")["default"]);
-Vue.component('remitance-amount', __webpack_require__(/*! ./components/RemitanceAmount.vue */ "./resources/js/components/RemitanceAmount.vue")["default"]);
-Vue.component('multiple-incentive', __webpack_require__(/*! ./components/MultipleIncentive.vue */ "./resources/js/components/MultipleIncentive.vue")["default"]);
-Vue.component('check-record', __webpack_require__(/*! ./components/CheckRecord.vue */ "./resources/js/components/CheckRecord.vue")["default"]);
+Vue.component("example-component", __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
+Vue.component("remitance-select", __webpack_require__(/*! ./components/RemitanceSelect.vue */ "./resources/js/components/RemitanceSelect.vue")["default"]);
+Vue.component("rmcountry-select", __webpack_require__(/*! ./components/RmCountrySelect.vue */ "./resources/js/components/RmCountrySelect.vue")["default"]);
+Vue.component("remitance-amount", __webpack_require__(/*! ./components/RemitanceAmount.vue */ "./resources/js/components/RemitanceAmount.vue")["default"]);
+Vue.component("multiple-incentive", __webpack_require__(/*! ./components/MultipleIncentive.vue */ "./resources/js/components/MultipleIncentive.vue")["default"]);
+Vue.component("check-record", __webpack_require__(/*! ./components/CheckRecord.vue */ "./resources/js/components/CheckRecord.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -64243,8 +64243,32 @@ Vue.component('check-record', __webpack_require__(/*! ./components/CheckRecord.v
  */
 
 var app = new Vue({
-  el: '#app'
+  el: "#app"
 });
+
+function mconfirm() {
+  var msg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "Are You Sure?";
+  var func = arguments.length > 1 ? arguments[1] : undefined;
+  app.$bvModal.msgBoxConfirm(msg, {
+    title: "",
+    size: "sm",
+    buttonSize: "sm",
+    okVariant: "danger",
+    okTitle: "YES",
+    cancelTitle: "NO",
+    hideHeaderClose: false,
+    headerClass: 'border-bottom-0',
+    bodyClass: 'mt-4 text-center h2 font-weight-bold',
+    footerClass: 'p-2 border-top-0 justify-content-center',
+    centered: true
+  }).then(function (value) {
+    if (value) {
+      func();
+    }
+  });
+}
+
+window.mconfirm = mconfirm;
 
 /***/ }),
 

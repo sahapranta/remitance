@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $users = User::all();
@@ -41,5 +46,11 @@ class UserController extends Controller
             $user->update($request->except(['password']));
         }
         return redirect()->route('user.index')->with('success', "{$user->name} Updated Successfully");
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect('/user')->with('success', "$user->name Successfully Deleted");
     }
 }

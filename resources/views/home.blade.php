@@ -8,9 +8,7 @@
     .menu .card:hover {
         background: linear-gradient(to left, #f4fae3, #f8eaea);
         box-shadow: 5px 5px 10px -5px rgba(94, 94, 94, 0.5);
-        /* border: 2px solid #b49f9f; */
         cursor: pointer;
-        /* transform: skewX(0.5deg); */
     }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.3/xlsx.full.min.js" integrity="sha256-ME1oxb2vK5SiiMtx+4oULIxCn2t84vyIKg3bp8Sw2gI=" crossorigin="anonymous"></script>
@@ -38,7 +36,7 @@
                             </form>
                         </div>
                         <div class="col-md-4">
-                            <check-record token="{{csrf_token()}}"></check-record>
+                            <check-record token="{{ csrf_token() }}"></check-record>
                         </div>
                     </div>
 
@@ -102,17 +100,21 @@
                                 </div>
                             </div>
                         </div>
+                        @if(auth()->user()->is_admin)
                         <div class="col-md-3 mb-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <i class="fa fa-3x fa fa-user-circle mb-2" style="color:var(--teal)"></i>
-                                    <h5>
-                                        <a href="{{ route('user.index') }}">User</a>
-                                    </h5>
+                                    <a href="{{ route('user.index') }}">
+                                        <i class="fa fa-3x fa fa-user-circle mb-2" style="color:var(--teal)"></i>
+                                        <h5>
+                                            User
+                                        </h5>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-4">
+                        @endif
+                        <!-- <div class="col-md-3 mb-4">
                             <div class="card">
                                 <div class="card-body">
                                     <i class="fa fa-3x fa-cog mb-2" style="color:var(--orange)"></i>
@@ -131,7 +133,7 @@
                                     </h5>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

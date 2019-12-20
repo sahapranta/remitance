@@ -22,6 +22,7 @@ Route::post('/remitance/{customer}/payall', 'RemitanceController@pay_multiple_in
 // Data Entry
 Route::post('/remitance/entry', 'RemitanceController@data_entry')->name('remitance.entry');
 Route::post('/remitance/prefilled_remitance', 'RemitanceController@prefilled_remitance')->name('remitance.prefilled-remitance');
+Route::get('/remitance/remove_duplicate/{remitance}', 'RemitanceController@remove_duplicate')->name('remitance.remove.duplicate');
 
 // Record Print Count
 Route::post('/print/count', 'RemitanceController@print_count')->name('print.count');
@@ -56,6 +57,7 @@ Route::post('/report/datewise-incentive', 'ReportController@datewise_incentive')
 Route::get('/user', 'UserController@index')->name('user.index');
 Route::get('/user/{user}', 'UserController@edit')->name('user.edit');
 Route::put('/user/{user}', 'UserController@update')->name('user.update');
+Route::delete('/user/{user}', 'UserController@destroy')->name('user.destroy');
 Route::post('/user/make-admin', 'UserController@admin')->name('user.admin');
 
 

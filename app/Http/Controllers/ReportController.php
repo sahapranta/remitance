@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\Remitance;
-use DateTime;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $remitances = Remitance::all();
@@ -252,6 +256,8 @@ class ReportController extends Controller
             ->whereYear('payment_date', date('Y', $date))
             ->whereMonth('payment_date', date('m', $date))
             ->where('payment_type', 'transfer')
+            ->where('remit_type', 'spotcash')
+            ->orWhere('remit_type', 'coc')
             ->get()
             ->sum('amount');
 
@@ -262,6 +268,7 @@ class ReportController extends Controller
     {
         return redirect()->back()->with('success', "SMS sent to {$remitance->Customer->mobile}");
     }
+
     public function remitance(Remitance $remitance)
     {
         return view('report.remitance', compact('remitance'));

@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Validator;
 class RemitanceController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view('remitance.entry');
@@ -65,11 +70,11 @@ class RemitanceController extends Controller
             ->where('incentive_date', date('Y-m-d', strtotime($date)));
         if ($type === 'cash') {
             $rem = $query->where('payment_type', $type)
-                ->get();                
+                ->get();
             $inc = count($rem) + 1;
             $number = str_pad($inc, 4, '0', STR_PAD_LEFT);
         } else {
-            $rem =$query->where('payment_type', $type)
+            $rem = $query->where('payment_type', $type)
                 ->get();
             $inc = count($rem) + 1;
             $number = '1' . str_pad($inc, 3, '0', STR_PAD_LEFT);
@@ -213,7 +218,6 @@ class RemitanceController extends Controller
     }
 
 
-
     public function print_count(Request $request)
     {
         if ($request->input('incentive')) {
@@ -226,8 +230,17 @@ class RemitanceController extends Controller
         return "false";
     }
 
+    public function remove_duplicate(Remitance $remitance)
+    {
+        $remitance->voucher_print = 0;
+        $remitance->save();
+        return redirect()->back()->with('success', 'Voucher Print Count Reset to 0');
+    }
+
     public function destroy(Remitance $remitance)
     {
-        //
+        $customer = $remitance->customer_id;
+        $remitance->delete();
+        return redirect("/customer/$customer")->with('success', 'Remitance Successfully Deleted');
     }
 }

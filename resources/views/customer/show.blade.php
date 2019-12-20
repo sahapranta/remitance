@@ -35,9 +35,9 @@
                             <a href="{{ route('remitance.all', $customer->id)}}" class="btn btn-block btn-info">Pay Incentive</a>
                             <a href="{{route('remitance.create', ['customer'=>$customer->id])}}" class="btn btn-block btn-secondary">Pay Remitance</a>
                             <a href="{{route('report.customer', $customer->id)}}" class="btn btn-block btn-dark">Generate Report</a>
-                            <button class="btn btn-block btn-danger">
+                            <a onclick="event.preventDefault(); mconfirm('Are you Sure?', function(){window.location.href=event.target.href;})" href="#" class="btn btn-block btn-danger">
                                 Delete
-                            </button>
+                            </a>
                         </div>
                     </div>
 

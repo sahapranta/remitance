@@ -3,27 +3,17 @@
     <div class="justify-content-center">
         @include('layouts._message')
         <div class="card">
-            <div
-                class="card-header bg-dark text-white d-flex justify-content-between"
-            >
+            <div class="card-header bg-dark text-white d-flex justify-content-between">
                 <h4>
                     Remitance for
-                    <a
-                        class="text-white border-bottom border-info"
-                        href="{{route('customer.show', $remitance->Customer->id)}}"
-                        >{{$remitance->Customer->name}}</a
-                    >
+                    <a class="text-white border-bottom border-info" href="{{route('customer.show', $remitance->Customer->id)}}">{{$remitance->Customer->name}}</a>
                     @unless($remitance->incentive_amount > 0)
                     <span class="badge badge-pill badge-danger">Due</span>
                     @endunless
                 </h4>
                 <div>
-                    <a href="{{ url()->previous() }}" class="btn btn-light mr-2"
-                        >Back</a
-                    >
-                    <a href="{{ route('home') }}" class="btn btn-success"
-                        >Home</a
-                    >
+                    <a href="{{ url()->previous() }}" class="btn btn-light mr-2">Back</a>
+                    <a href="{{ route('home') }}" class="btn btn-success">Home</a>
                 </div>
             </div>
             <div class="card-body">
@@ -100,19 +90,13 @@
                                     <tr>
                                         <td>
                                             <b>Total Paid: </b>
-                                            <span
-                                                class="text-danger"
-                                                >{{number_format($remitance->amount + $remitance->incentive_amount, 2)}}</span
-                                            >
+                                            <span class="text-danger">{{number_format($remitance->amount + $remitance->incentive_amount, 2)}}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <b>Amount: </b>
-                                            <span
-                                                class="text-danger"
-                                                >{{number_format($remitance->amount, 2)}}</span
-                                            >
+                                            <span class="text-danger">{{number_format($remitance->amount, 2)}}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -121,9 +105,7 @@
                                             {!! $remitance->incentive_amount > 0
                                             ?
                                             number_format($remitance->incentive_amount,
-                                            2) : '<span class="text-danger"
-                                                >Not Paid</span
-                                            >' !!}
+                                            2) : '<span class="text-danger">Not Paid</span>' !!}
                                         </td>
                                     </tr>
                                     <tr>
@@ -131,9 +113,7 @@
                                             <b>Incentive Payment: </b>
                                             {!! $remitance->incentive_amount > 0
                                             ? $remitance->incentive_date :
-                                            '<span class="text-danger"
-                                                >Not Paid</span
-                                            >' !!}
+                                            '<span class="text-danger">Not Paid</span>' !!}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -141,17 +121,9 @@
                         </div>
                     </div>
                 </div>
-                <a
-                    href="{{route('remitance.edit', $remitance->id)}}"
-                    class="btn btn-outline-success col-md-1 mr-2"
-                    title="You Have No Permission"
-                    >Edit</a
-                >
-                <a
-                    href="{{route('remitance.edit', [$remitance->id, 'incentive'=>'true'])}}"
-                    class="btn btn-primary col-md-2"
-                    >Pay Incentive</a
-                >
+                <a href="{{route('remitance.edit', $remitance->id)}}" class="btn btn-outline-success col-md-1 mr-2" title="You Have No Permission">Edit</a>
+                <a href="{{route('remitance.edit', [$remitance->id, 'incentive'=>'true'])}}" class="btn btn-primary col-md-2">Pay Incentive</a>
+                <a onclick="event.preventDefault(); mconfirm('Are you Sure?', function(){window.location.href=event.target.href;})" href="{{route('remitance.remove.duplicate', $remitance->id)}}" class="btn btn-danger col-md-2">Erase Duplicate</a>
                 <div class="float-right">
                     <a href="{{route('report.remitance', $remitance->id)}}" class="btn btn-outline-dark">Print</a>
                     <a href="{{route('report.remitance-sms', $remitance->id)}}" class="btn btn-outline-danger">SMS</a>
