@@ -23,6 +23,7 @@ Route::post('/remitance/{customer}/payall', 'RemitanceController@pay_multiple_in
 Route::post('/remitance/entry', 'RemitanceController@data_entry')->name('remitance.entry');
 Route::post('/remitance/prefilled_remitance', 'RemitanceController@prefilled_remitance')->name('remitance.prefilled-remitance');
 Route::get('/remitance/remove_duplicate/{remitance}', 'RemitanceController@remove_duplicate')->name('remitance.remove.duplicate');
+Route::post('/remitance/remove-duplicate-incentive', 'RemitanceController@remove_duplicate_incentive')->name('remitance.duplicate.incentives');
 
 // Record Print Count
 Route::post('/print/count', 'RemitanceController@print_count')->name('print.count');
@@ -39,6 +40,8 @@ Route::get('/notifications', 'MarkAsReadController@index')->name('notifications'
 Route::delete('/notifications', 'MarkAsReadController@delete')->name('deleteNotification');
 
 Route::get('/settings', 'SettingsController@index')->name('settings');
+Route::post('/settings/cache', 'SettingsController@cache')->name('settings.cache');
+Route::post('/settings/cache-clear', 'SettingsController@cache_clear')->name('settings.cache.clear');
 Route::post('/settings', 'SettingsController@store')->name('settings.store');
 Route::put('/settings/{settings}', 'SettingsController@update')->name('settings.update');
 

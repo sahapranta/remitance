@@ -28,4 +28,18 @@ class SettingsController extends Controller
         $settings->update($request->all());
         return redirect('/settings')->with('success', "$settings->name updated Successfully");
     }
+    public function cache()
+    {
+        \Artisan::call('view:cache');
+        \Artisan::call('route:cache');
+        return redirect()->back()->with('success', 'Routes and Views Cached for faster Usages');
+    }
+
+    public function cache_clear()
+    {
+        \Artisan::call('cache:clear');
+        \Artisan::call('view:clear');
+        \Artisan::call('route:clear');
+        return redirect()->back()->with('success', 'All Cache are Successfully Cleared');
+    }
 }

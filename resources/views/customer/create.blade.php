@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header bg-success text-white d-flex justify-content-between">
                 <h4>Create New Customer</h4>
-                <a href="{{route('customer.index')}}" class="btn btn-dark">Back</a>
+                <a href="{{route('home')}}" class="btn btn-dark">Home</a>
             </div>
             <div class="card-body">
                 <form action="{{route('customer.store')}}" method="POST" class="p-3">

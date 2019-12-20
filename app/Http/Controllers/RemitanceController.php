@@ -237,6 +237,28 @@ class RemitanceController extends Controller
         return redirect()->back()->with('success', 'Voucher Print Count Reset to 0');
     }
 
+    public function remove_duplicate_incentive(Request $request)
+    {
+        $rems = Remitance::where('incentive_voucher', '=', $request->input('voucher'));
+
+        if ($rems->exists()) {
+            $remitances = $rems->get();
+            if ($remitances[0]->incentive_voucher_print > 0) {
+                foreach ($remitances as $rem) {
+                    if ($rem->incentive_voucher_print > 0) {
+                        $rem->incentive_voucher_print = 0;
+                        $rem->save();
+                    }
+                }
+                return redirect('/settings')->with('success', 'Voucher Print Count Reset to 0');
+            } else {
+                return redirect('/settings')->with('danger', 'Voucher Print Count is Already 0');
+            }
+        } else {
+            return redirect('/settings')->with('danger', 'Voucher ID not Found');
+        }
+    }
+
     public function destroy(Remitance $remitance)
     {
         $customer = $remitance->customer_id;
