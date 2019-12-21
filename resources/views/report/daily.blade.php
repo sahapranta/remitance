@@ -40,7 +40,7 @@
                         {{$agent_inc = 0;}}
                         {{$api_rem = 0;}}
                         {{$api_inc = 0;}}
-                        @endphp @foreach($remitances as $remitance)
+                        @endphp @foreach($remitances as $remitance)                        
                         @if($remitance->remit_type === 'spotcash' &&
                         $remitance->payment_type === 'cash' && $remitance->payment_by !== 'agent')
                         <tr>
@@ -124,6 +124,19 @@
                             <td>{{$remitance->incentive_date}}</td>
                             @php($api_rem += $remitance->amount) @php($api_inc
                             += $remitance->incentive_amount)
+                        </tr>
+                        @elseif($remitance->remit_type === 'online')
+                        <tr>
+                            <td>{{$loop->index + 1}}</td>
+                            <td>{{$remitance->Customer->name}}</td>
+                            <td>{{$remitance->Customer->identification}}</td>
+                            <td>{{$remitance->sender}}</td>
+                            <td>{{$remitance->exchange_house}}</td>
+                            <td>{{$remitance->payment_date}}</td>
+                            <td>{{number_format($remitance->amount, 2)}}</td>
+                            <td>Online</td>
+                            <td>{{$remitance->incentive_amount}}</td>
+                            <td>{{$remitance->incentive_date}}</td>
                         </tr>
                         @endif @endforeach
                     </tbody>

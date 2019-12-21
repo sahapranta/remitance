@@ -83,7 +83,7 @@
                 </table>
             </div>
             <div class="d-block bg-success text-white p-1 text-center">
-                <h4 class="mt-4">Total Remitance for <small>{{current($period)}}</small> to <small>{{end($period)}}</small> <b>BDT {{number_format($grand_total, 2)}}</b></h4>
+                <h4 class="mt-4">Total {{$type}} for <small>{{current($period)}}</small> to <small>{{end($period)}}</small> <b>BDT {{number_format($grand_total, 2)}}</b></h4>
             </div>
         </div>
     </div>

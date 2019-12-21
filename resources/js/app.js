@@ -68,7 +68,7 @@ const app = new Vue({
     el: "#app"
 });
 
-function mconfirm(msg = "Are You Sure?", func) {
+function mconfirm(msg = "Are You Sure?", func = null) {
     app.$bvModal
         .msgBoxConfirm(msg, {
             title: "",
@@ -76,15 +76,14 @@ function mconfirm(msg = "Are You Sure?", func) {
             buttonSize: "sm",
             okVariant: "danger",
             okTitle: "YES",
-            cancelTitle: "NO",
-            hideHeaderClose: false,
+            cancelTitle: "NO",            
             headerClass: "border-bottom-0",
             bodyClass: "mt-4 text-center h2 font-weight-bold",
             footerClass: "p-2 border-top-0 justify-content-center",
             centered: true
         })
         .then(value => {
-            if (value) {
+            if (value && typeof(func) == 'function') {
                 func();
             }
         });

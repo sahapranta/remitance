@@ -56,6 +56,7 @@ Route::get('/report/daily', 'ReportController@daily')->name('report.daily');
 Route::get('/report/monthly', 'ReportController@monthly')->name('report.monthly');
 Route::post('/report/datewise-remitance', 'ReportController@datewise_remitance')->name('report.date.remitance');
 Route::post('/report/datewise-incentive', 'ReportController@datewise_incentive')->name('report.date.incentive');
+Route::post('/report/check-ref', 'ReportController@check_ref')->name('report.check.ref');
 
 Route::get('/user', 'UserController@index')->name('user.index');
 Route::get('/user/{user}', 'UserController@edit')->name('user.edit');

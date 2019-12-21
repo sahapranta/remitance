@@ -7,6 +7,7 @@
         script.src = link;
         document.body.appendChild(script);
     }
+
     window.onload = () => {
         make_script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js');
         make_script('/js/jquery.daterange.js');
@@ -34,7 +35,7 @@
                     $('#daterange2').val(s2);
                 }
             });
-        }, 300);
+        }, 1000);
     }
 </script>
 @endsection
@@ -42,6 +43,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+        @include('layouts._message')
+        @if(session('link'))
+        <b-alert show dismissible variant="primary">
+            <h4 class="alert-heading">Reference Found</h4>
+            <p>{{session('link')}}</p>
+        </b-alert>
+        @endif
             <div class="card">
                 <div class="card-header bg-success d-flex justify-content-between">
                     <h4 class="text-white">Generate Report</h4>
@@ -88,6 +96,26 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card">
+                                <div class="card-header">Check Reference</div>
+                                <div class="card-body">
+                                    <form action="{{route('report.check.ref')}}" method="post">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input type="text" class="form-control @error('ref') is-invalid @enderror" name="ref" placeholder="Reference Number">
+                                            @error('ref')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                        <input type="submit" value="Check" class="btn btn-block btn-outline-dark">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-md-4">
+                            <div class="card">
                                 <div class="card-header font-weight-bold">Re-Print Incentive Voucher</div>
                                 <div class="card-body">
                                     <form action="" method="get">
@@ -102,7 +130,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div>                         -->
                     </div>                    
                 </div>
             </div>

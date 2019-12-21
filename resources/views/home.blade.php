@@ -11,7 +11,7 @@
         cursor: pointer;
     }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.3/xlsx.full.min.js" integrity="sha256-ME1oxb2vK5SiiMtx+4oULIxCn2t84vyIKg3bp8Sw2gI=" crossorigin="anonymous"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.3/xlsx.full.min.js" integrity="sha256-ME1oxb2vK5SiiMtx+4oULIxCn2t84vyIKg3bp8Sw2gI=" crossorigin="anonymous"></script> -->
 @endsection @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="card-body text-center">
                     <div class="row">
-                        <div class="col-md-8 col-sm-6">
+                        <div class="col-md-12">
                             <form method="POST" action="{{ route('check-customer') }}">
                                 @csrf
                                 <div class="form-group">
@@ -35,9 +35,9 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <check-record token="{{ csrf_token() }}"></check-record>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="row menu">

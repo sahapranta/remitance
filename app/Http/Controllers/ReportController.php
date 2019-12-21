@@ -28,6 +28,7 @@ class ReportController extends Controller
             ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('remit_type', 'spotcash')
             ->where('payment_type', 'cash')
+            ->where('payment_by', '!=', 'agent')
             ->selectRaw('SUM(amount) as spotcash, payment_date')
             ->groupBy('payment_date')
             ->orderBy('payment_date', 'asc')
@@ -42,6 +43,7 @@ class ReportController extends Controller
             ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('remit_type', 'coc')
             ->where('payment_type', 'cash')
+            ->where('payment_by', '!=', 'agent')
             ->selectRaw('SUM(amount) as coc, payment_date')
             ->groupBy('payment_date')
             ->orderBy('payment_date', 'asc')
@@ -55,6 +57,7 @@ class ReportController extends Controller
         $acpay = Remitance::query()
             ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('payment_type', 'transfer')
+            ->where('payment_by', '!=', 'agent')            
             ->where('remit_type', 'spotcash')
             ->orWhere('remit_type', 'coc')
             ->selectRaw('SUM(amount) as acpay, payment_date')
@@ -118,8 +121,10 @@ class ReportController extends Controller
             $Store = date('Y-m-d', $currentDate);
             $period[] = $Store;
         }
+        
+        $type = "Remitance";
 
-        return view('report.datewise', compact('period', 'acpay', 'coc', 'spotcash', 'online', 'qremit', 'agent'));
+        return view('report.datewise', compact('period', 'acpay', 'coc', 'spotcash', 'online', 'qremit', 'agent', 'type'));
     }
 
     public function datewise_incentive(Request $request)
@@ -221,8 +226,8 @@ class ReportController extends Controller
             $Store = date('Y-m-d', $currentDate);
             $period[] = $Store;
         }
-
-        return view('report.datewise', compact('period', 'acpay', 'coc', 'spotcash', 'online', 'qremit', 'agent'));
+        $type = "Incentive";
+        return view('report.datewise', compact('period', 'acpay', 'coc', 'spotcash', 'online', 'qremit', 'agent', 'type'));
     }
 
     public function daily(Request $request)
@@ -240,7 +245,6 @@ class ReportController extends Controller
             ->whereYear('payment_date', date('Y', $date))
             ->whereMonth('payment_date', date('m', $date))
             ->where('remit_type', 'spotcash')
-            ->where('payment_type', 'cash')
             ->get()
             ->sum('amount');
 
@@ -248,16 +252,14 @@ class ReportController extends Controller
             ->whereYear('payment_date', date('Y', $date))
             ->whereMonth('payment_date', date('m', $date))
             ->where('remit_type', 'coc')
-            ->where('payment_type', 'cash')
             ->get()
             ->sum('amount');
 
         $acpay = Remitance::query()
             ->whereYear('payment_date', date('Y', $date))
             ->whereMonth('payment_date', date('m', $date))
-            ->where('payment_type', 'transfer')
-            ->where('remit_type', 'spotcash')
-            ->orWhere('remit_type', 'coc')
+            ->where('remit_type', 'qremit')
+            ->orWhere('remit_type', 'online')
             ->get()
             ->sum('amount');
 
@@ -288,5 +290,21 @@ class ReportController extends Controller
     public function customer(Customer $customer)
     {
         return view('report.customer', compact('customer'));
+    }
+
+    public function check_ref(Request $request)
+    {
+        $request->validate([
+            'ref'=>'required|string|min:3'
+        ]);
+
+        $rem = Remitance::where('reference', $request->input('ref'));
+
+        if ($rem->exists()) {
+           $remitance = $rem->first();
+           return redirect()->back()->with('link', "Remitance Paid at {$remitance->payment_date} to {$remitance->Customer->name} BDT {$remitance->amount}tk and Incentive {$remitance->incentive_amount}tk");
+        } else {            
+            return redirect()->back()->with('danger', "Remitance with This Reference Not Found");
+        }
     }
 }
