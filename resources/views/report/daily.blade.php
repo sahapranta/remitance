@@ -42,7 +42,7 @@
                         {{$api_inc = 0;}}
                         @endphp @foreach($remitances as $remitance)
                         @if($remitance->remit_type === 'spotcash' &&
-                        $remitance->payment_type === 'cash')
+                        $remitance->payment_type === 'cash' && $remitance->payment_by !== 'agent')
                         <tr>
                             <td>{{$loop->index + 1}}</td>
                             <td>{{$remitance->Customer->name}}</td>
@@ -60,7 +60,7 @@
                             @php($spot_cash_inc += $remitance->incentive_amount)
                         </tr>
                         @elseif($remitance->remit_type === 'coc' &&
-                        $remitance->payment_type === 'cash')
+                        $remitance->payment_type === 'cash' && $remitance->payment_by !== 'agent')
                         <tr>
                             <td>{{$loop->index + 1}}</td>
                             <td>{{$remitance->Customer->name}}</td>
@@ -77,8 +77,7 @@
                             @php($coc_cash_rem += $remitance->amount)
                             @php($coc_cash_inc += $remitance->incentive_amount)
                         </tr>
-                        @elseif($remitance->remit_type === 'qremit' &&
-                        $remitance->payment_type === 'cash')
+                        @elseif($remitance->remit_type === 'qremit')
                         <tr>
                             <td>{{$loop->index + 1}}</td>
                             <td>{{$remitance->Customer->name}}</td>
@@ -96,8 +95,7 @@
                             @php($qremit_cash_inc +=
                             $remitance->incentive_amount)
                         </tr>
-                        @elseif($remitance->remit_type === 'online' &&
-                        $remitance->payment_by === 'agent')
+                        @elseif($remitance->payment_by === 'agent')
                         <tr>
                             <td>{{$loop->index + 1}}</td>
                             <td>{{$remitance->Customer->name}}</td>
@@ -112,7 +110,7 @@
                             @php($agent_rem += $remitance->amount)
                             @php($agent_inc += $remitance->incentive_amount)
                         </tr>
-                        @elseif($remitance->payment_type === 'transfer')
+                        @elseif($remitance->remit_type === 'spotcash' || $remitance->remit_type === 'coc' && $remitance->payment_type === 'transfer')
                         <tr>
                             <td>{{$loop->index + 1}}</td>
                             <td>{{$remitance->Customer->name}}</td>
@@ -200,10 +198,10 @@
                             <td colspan="3">
                                 Suspense Adjustment Report Balance:
                             </td>
-                            <td>0.00</td>
-                            <td>0.00</td>
+                            <td>{{number_format($spot_cash_rem + $api_rem + $agent_rem, 2)}}</td>
+                            <td>{{number_format($coc_cash_rem + $qremit_cash_rem, 2)}}</td>
                             <td></td>
-                            <td>0.00</td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -232,7 +230,7 @@
                         <tr class="font-weight-bold">
                             <td></td>
                             <td colspan="3">
-                                DEBIT: Sundry Debtor Others BDT {{number_format(1265701, 2)}}
+                                DEBIT: Sundry Debtor Others BDT126570001
                             </td>
                             <td colspan="2"></td>
                             <td>{{ date("d/m/Y", $date) }}</td>

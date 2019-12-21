@@ -45,6 +45,10 @@ Vue.component(
     require("./components/RmCountrySelect.vue").default
 );
 Vue.component(
+    "rmpayment-select",
+    require("./components/RmPaymentSelect.vue").default
+);
+Vue.component(
     "remitance-amount",
     require("./components/RemitanceAmount.vue").default
 );
@@ -72,11 +76,11 @@ function mconfirm(msg = "Are You Sure?", func) {
             buttonSize: "sm",
             okVariant: "danger",
             okTitle: "YES",
-            cancelTitle: "NO",            
+            cancelTitle: "NO",
             hideHeaderClose: false,
-            headerClass: 'border-bottom-0',
-            bodyClass: 'mt-4 text-center h2 font-weight-bold',
-            footerClass: 'p-2 border-top-0 justify-content-center',
+            headerClass: "border-bottom-0",
+            bodyClass: "mt-4 text-center h2 font-weight-bold",
+            footerClass: "p-2 border-top-0 justify-content-center",
             centered: true
         })
         .then(value => {
@@ -85,7 +89,5 @@ function mconfirm(msg = "Are You Sure?", func) {
             }
         });
 }
-
-
 
 window.mconfirm = mconfirm;

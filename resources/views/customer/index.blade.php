@@ -67,13 +67,18 @@
                                                 </td>
                                             </tr>
                                             @empty
-                                            <h5>Not Found...</h5>
+                                            <tr>
+                                                <td colspan="4" class="text-danger"><h3>Not Found...</h3></td>
+                                            </tr>
                                             @endforelse
                                         </tbody>
                                     </table>
                                 </div>
                                 
                                 @endif
+                            </div>
+                            <div class="pagination justify-content-center">
+                                {{$customers->links()}}
                             </div>
                         </div>
                     </div>

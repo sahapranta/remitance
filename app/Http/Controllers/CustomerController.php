@@ -24,7 +24,8 @@ class CustomerController extends Controller
             ->orWhere('account_id', 'LIKE', "%{$search}%")
             ->orWhere('name', 'LIKE', "%{$search}%")
             ->orWhere('mobile', 'LIKE', "%{$search}%")
-            ->get();
+            // ->get()
+            ->paginate(15);
             
         return view('customer.index', compact('customers'));
     }

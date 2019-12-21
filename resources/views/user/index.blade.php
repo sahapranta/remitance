@@ -10,7 +10,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <ul class="list-group">
                                 @foreach($users as $user)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">

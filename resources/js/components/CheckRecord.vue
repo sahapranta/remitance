@@ -5,7 +5,7 @@
         <input
           type="text"
           class="form-control"
-          placeholder="XLXS Ref..."
+          placeholder="XLSX Ref..."
           name="excel_ref"
           v-model="reference"
         />

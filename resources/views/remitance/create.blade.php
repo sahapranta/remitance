@@ -1,6 +1,7 @@
 @extends('layouts.app') @section('content')
 <div class="container">
     <div class="justify-content-center">
+           
         <div class="card">
             <div
                 class="card-header bg-success text-white d-flex justify-content-between"
@@ -14,6 +15,7 @@
                 </div>
             </div>
             <div class="card-body">
+                @include('layouts._message')
                 <form
                     action="{{ route('remitance.store') }}"
                     method="POST"
@@ -84,7 +86,7 @@
                         :percent="{{ config('global.incentive_percent')[0] }}"
                         :predata="['{{ old('amount')}}', '{{old('incentive_amount')}}']"
                     >
-                        @error('incentive_date')    
+                        @error('incentive_date')
                         <template v-slot:incentive>
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -92,7 +94,7 @@
                         </template>
                         @enderror
                     </remitance-amount>
-
+                        
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -130,7 +132,7 @@
                                         >Transfer | Payment Type</option
                                     >
                                 </select>
-                                @error('payment_by')
+                                @error('payment_type')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -140,7 +142,7 @@
                     </div>
                     <div class="form-group">
                         <textarea name="note" class="form-control" rows="2" placeholder="Any Note or Extra information if you want to keep..." maxlength="250">{{old('note')}}</textarea>
-                        <p class="form-text text-muted">Hey! You can only type 250 Charachter.</p>
+                        <p class="form-text text-danger text-right">Hey! You can only type 250 Charachter.</p>
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-3 col-6">

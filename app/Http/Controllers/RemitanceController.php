@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Customer;
-use App\Remitance;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Notifications\CustomerCreated;
+use App\Remitance;
+use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RemitanceController extends Controller
 {
@@ -132,7 +132,7 @@ class RemitanceController extends Controller
         $customer_id = $customer->id;
         $incentive_amount = floatval($request->input('incentive_amount'));
 
-        Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'incentive_date' => Rule::requiredIf($incentive_amount > 0),
             'remit_type' => 'required|string',
             'exchange_house' => 'required|string',
@@ -140,10 +140,23 @@ class RemitanceController extends Controller
             'payment_date' => 'required|date',
             'sending_country' => 'required|string',
             'sender' => 'required|string',
-            'payment_type' => 'required|string',
             'payment_by' => 'required|string',
+            'payment_type' => 'required|string',
             'note' => 'nullable|string|max:250',
-        ])->validate();
+        ]);
+        $validator->validate();
+
+        $remit_type = $request->input('remit_type');
+        $payment_type = $request->input('payment_type');
+                   
+        if ($remit_type == 'qremit' || $remit_type == 'online' && $payment_type == 'cash') {
+            return redirect()
+            ->back()
+            ->withInput($request->all())
+            ->with('danger', 'Payment Type Should Be Transfer');
+        }     
+
+        
 
         if ($request->input('payment_type') === 'cash') {
             $remitance_voucher = $this->remitance_voucher('cash', $request->input('payment_date'));
@@ -216,7 +229,6 @@ class RemitanceController extends Controller
                 ->with('success', 'Remitance Successfully Updated');
         }
     }
-
 
     public function print_count(Request $request)
     {
