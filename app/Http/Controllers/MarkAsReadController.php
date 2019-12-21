@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Faker\Generator as Faker;
 
 class MarkAsReadController extends Controller
 {
@@ -12,7 +11,7 @@ class MarkAsReadController extends Controller
         return $this->middleware('auth');
     }
 
-    public function index(Faker $faker)
+    public function index()
     {
         return view('notifications');
     }
