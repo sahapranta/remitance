@@ -42,4 +42,20 @@ class SettingsController extends Controller
         \Artisan::call('route:clear');
         return redirect()->back()->with('success', 'All Cache are Successfully Cleared');
     }
+
+    public function offus()
+    {
+        return view('offus');
+    }
+
+    public function offus_upload(Request $request)
+    {
+        $path = $request->file('file')->getRealPath();
+        $pattern = "/\bcommit\b/i"; //commit 
+        $lines = preg_grep($pattern, file($path));
+
+        // dd(file_get_contents($path));
+        return $lines;
+    }        
+
 }

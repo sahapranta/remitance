@@ -114,17 +114,17 @@
                             </div>
                         </div>
                         @endif
-                        <!-- <div class="col-md-3 mb-4">
+                        <div class="col-md-3 mb-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <i class="fa fa-3x fa-cog mb-2" style="color:var(--orange)"></i>
+                                    <i class="fa fa-3x fa-file-alt mb-2" style="color:var(--orange)"></i>
                                     <h5>
-                                        <a href="{{ route('customer.index') }}">Settings</a>
+                                        <a href="{{ route('offus') }}">Offus</a>
                                     </h5>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-4">
+                        <!-- <div class="col-md-3 mb-4">
                             <div class="card">
                                 <div class="card-body">
                                     <i class="fa fa-3x fa-cog mb-2" style="color:var(--cyan)"></i>

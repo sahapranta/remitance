@@ -65,3 +65,6 @@ Route::delete('/user/{user}', 'UserController@destroy')->name('user.destroy');
 Route::post('/user/make-admin', 'UserController@admin')->name('user.admin');
 
 
+// Offus
+Route::get('/offus', 'SettingsController@offus')->name('offus');
+Route::post('/offus', 'SettingsController@offus_upload')->name('offus.upload');
