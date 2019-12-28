@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Settings;
+use App\Customer;
+use App\Remitance;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
@@ -44,18 +46,65 @@ class SettingsController extends Controller
     }
 
     public function offus()
-    {
+    {        
         return view('offus');
     }
 
     public function offus_upload(Request $request)
     {
         $path = $request->file('file')->getRealPath();
-        $pattern = "/\bcommit\b/i"; //commit 
-        $lines = preg_grep($pattern, file($path));
 
-        // dd(file_get_contents($path));
-        return $lines;
-    }        
+        $remitance = $request->input('remitance');
+        $rem_pattern = "/\b$remitance\b/i";
+        $rem = preg_grep($rem_pattern, file($path));
+
+        $incentive = $request->input('incentive');
+        $inc_pattern = "/\b$incentive\b/i";
+        $inc = preg_grep($inc_pattern, file($path));
+
+        return compact('rem', 'inc');
+    }
+
+
+    public function create_remitance_offus(Request $request)
+    {
+        $data = $request->input('data');
+        $date = $request->input('date');
+
+        $inc =  1;        
+        
+        foreach ($data as $d) {
+            $voucher = 'RM-' . date('Ymd') . '-' .'1' . str_pad($inc, 3, '0', STR_PAD_LEFT);
+
+            $customer = Customer::where('account_id', $d['code'])->get();
+            
+            if ($customer->isEmpty()) {
+                $customer = Customer::create([
+                    'name'=> $d['name'],
+                    'account_id'=> $d['code'],
+                    'user_id' => \Auth::id()
+                ]);
+            }            
+
+            $remitance = Remitance::create([
+                'remit_type'=>'online',
+                'exchange_house'=>'online',
+                'reference'=>$d['ref'],
+                'payment_date'=>$date,
+                'sending_country'=>'Online',
+                'sender'=>'Online',
+                'amount'=>$d['amount'],
+                'incentive_amount'=>$d['incentive'],
+                'incentive_date'=>$date,
+                'payment_type'=>'transfer',
+                'payment_by'=>'branch',
+                'customer_id'=>$customer->id,
+                'user_id'=>\Auth::id(),
+                'voucher_reference'=>$voucher,
+            ]);
+        }
+
+        return 'true';
+    }
 
 }

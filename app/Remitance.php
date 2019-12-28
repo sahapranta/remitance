@@ -24,21 +24,5 @@ class Remitance extends Model
     public function getCreateDateAttribute()
     {
         return $this->payment_date->diffForHumans();
-    }
-    
-
-    public function VoucherReferenceAttribute($type, $date)
-    {
-        // if ($type === 'cash') {
-        //     $inc = $this->get_voucher($type, $date) + 1;
-        //     $number = str_pad($inc, 4, '0', STR_PAD_LEFT);
-        //     $this->attributes['voucher_reference'] = 'RM-' . date('Ymd') . '-' . $number;
-        // } else {
-        //     $inc = $this->get_voucher($type, $date) + 1;
-        //     $number = str_pad($inc, 3, '0', STR_PAD_LEFT);
-        //     $this->attributes['voucher_reference'] = 'RM-' . date('Ymd') . '-1' . $number;
-        // }
-
-    }
-
+    }    
 }
