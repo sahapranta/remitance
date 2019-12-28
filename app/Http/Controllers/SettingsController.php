@@ -11,7 +11,7 @@ class SettingsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth');        
     }
 
     public function index()
@@ -51,7 +51,7 @@ class SettingsController extends Controller
     }
 
     public function offus_upload(Request $request)
-    {
+    {        
         $path = $request->file('file')->getRealPath();
 
         $remitance = $request->input('remitance');
@@ -61,7 +61,6 @@ class SettingsController extends Controller
         $incentive = $request->input('incentive');
         $inc_pattern = "/\b$incentive\b/i";
         $inc = preg_grep($inc_pattern, file($path));
-
         return compact('rem', 'inc');
     }
 
@@ -70,6 +69,10 @@ class SettingsController extends Controller
     {
         $data = $request->input('data');
         $date = $request->input('date');
+
+        if (empty($data)) {
+            // return 'No Data Found';
+        }
 
         $inc =  1;        
         
@@ -89,7 +92,7 @@ class SettingsController extends Controller
             $remitance = Remitance::create([
                 'remit_type'=>'online',
                 'exchange_house'=>'online',
-                'reference'=>$d['ref'],
+                'reference'=>uniqid('on_'),
                 'payment_date'=>$date,
                 'sending_country'=>'Online',
                 'sender'=>'Online',
