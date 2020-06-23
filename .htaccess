@@ -3,6 +3,7 @@
         Options -MultiViews
     </IfModule>
 
+<<<<<<< HEAD
     # gzip enabling
     AddOutputFilterByType DEFLATE text/plain
     AddOutputFilterByType DEFLATE text/html
@@ -20,6 +21,8 @@
         Header set Cache-Control "max-age=2592000, public"
     </filesMatch>
 
+=======
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd
     RewriteEngine On
 
     RewriteCond %{REQUEST_FILENAME} -d [OR]
@@ -33,4 +36,8 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ server.php
 
+<<<<<<< HEAD
 </IfModule>
+=======
+</IfModule>
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd

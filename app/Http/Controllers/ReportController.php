@@ -137,9 +137,15 @@ class ReportController extends Controller
             ->where('remit_type', 'spotcash')
             ->where('payment_type', 'cash')
             ->where('payment_by', '!=', 'agent')
+<<<<<<< HEAD
             ->selectRaw('SUM(incentive_amount) as spotcash, incentive_date')
             ->groupBy('incentive_date')
             ->orderBy('incentive_date', 'asc')
+=======
+            ->selectRaw('SUM(incentive_amount) as spotcash, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd
             ->get()
             ->keyBy('incentive_date')
             ->transform(function ($ac) {
@@ -152,9 +158,15 @@ class ReportController extends Controller
             ->where('remit_type', 'coc')
             ->where('payment_type', 'cash')
             ->where('payment_by', '!=', 'agent')
+<<<<<<< HEAD
             ->selectRaw('SUM(incentive_amount) as coc, incentive_date')
             ->groupBy('incentive_date')
             ->orderBy('incentive_date', 'asc')
+=======
+            ->selectRaw('SUM(incentive_amount) as coc, payment_date')
+            ->groupBy('payment_date')
+            ->orderBy('payment_date', 'asc')
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd
             ->get()
             ->keyBy('incentive_date')
             ->transform(function ($ac) {

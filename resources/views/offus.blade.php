@@ -74,14 +74,21 @@
                         }
                         return r;
                     });
+<<<<<<< HEAD
 
+=======
+                    
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd
                     axios
                         .post(`${e.target.form.action}/create`, {
                             date,
                             data: both
                         })
                         .then(res => {
+<<<<<<< HEAD
                             // console.log(res.data);
+=======
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd
                             if (res.data === 'true') {
                                 mconfirm("Data Submitted Successfully");
                             } else {

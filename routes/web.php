@@ -67,3 +67,7 @@ Route::get('/offus', 'SettingsController@offus')->name('offus');
 Route::post('/offus', 'SettingsController@offus_upload')->name('offus.upload');
 Route::post('/offus/create', 'SettingsController@create_remitance_offus')->name('offus.create');
 
+// Offus
+Route::get('/offus', 'SettingsController@offus')->name('offus');
+Route::post('/offus', 'SettingsController@offus_upload')->name('offus.upload');
+Route::post('/offus/create', 'SettingsController@create_remitance_offus')->name('offus.create');

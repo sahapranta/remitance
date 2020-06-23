@@ -24,6 +24,10 @@ class Remitance extends Model
     public function getCreateDateAttribute()
     {
         return $this->payment_date->diffForHumans();
+<<<<<<< HEAD
     }
   
+=======
+    }    
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd
 }

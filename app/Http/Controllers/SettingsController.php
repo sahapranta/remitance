@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Settings;
+use App\Customer;
+use App\Remitance;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth');        
     }
 
     public function index()
@@ -70,7 +72,11 @@ class SettingsController extends Controller
         $date = $request->input('date');
 
         if (empty($data)) {
+<<<<<<< HEAD
             return 'No Data Found';
+=======
+            // return 'No Data Found';
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd
         }
 
         $inc =  1;        
@@ -88,7 +94,11 @@ class SettingsController extends Controller
                 ]);
             }            
 
+<<<<<<< HEAD
             Remitance::create([
+=======
+            $remitance = Remitance::create([
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd
                 'remit_type'=>'online',
                 'exchange_house'=>'online',
                 'reference'=>uniqid('on_'),
@@ -108,4 +118,8 @@ class SettingsController extends Controller
 
         return 'true';
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 93b9275a36a46f7782aa5f17d74596b7c55570dd
 }
