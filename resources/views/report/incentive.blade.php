@@ -7,7 +7,7 @@
             if (e.ctrlKey && e.keyCode == "P".charCodeAt(0)) {
                 e.preventDefault();
                 axios
-                    .post("/print/count", { incentive })
+                    .post("/remitance/print/count", { incentive })
                     .then(res => {
                         if (res.data == true) {
                             window.print();

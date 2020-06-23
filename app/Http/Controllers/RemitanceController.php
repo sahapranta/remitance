@@ -61,7 +61,7 @@ class RemitanceController extends Controller
             $number = '1' . str_pad($inc, 3, '0', STR_PAD_LEFT);
         }
 
-        return (string) 'RM-' . date('Ymd') . '-' . $number;
+        return (string) 'RM-' . date('Ymd', strtotime($date)) . '-' . $number;
     }
 
     public function create_voucher($type, $date)
@@ -80,7 +80,7 @@ class RemitanceController extends Controller
             $number = '1' . str_pad($inc, 3, '0', STR_PAD_LEFT);
         }
 
-        return (string) 'IN-' . date('Ymd') . '-' . $number;
+        return (string) 'IN-' . date('Ymd', strtotime($date)) . '-' . $number;
     }
 
     public function pay_all_incentive(Customer $customer)

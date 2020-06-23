@@ -57,7 +57,7 @@ class ReportController extends Controller
         $acpay = Remitance::query()
             ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('payment_type', 'transfer')
-            ->where('payment_by', '!=', 'agent')            
+            ->where('payment_by', '!=', 'agent')
             ->where('remit_type', 'spotcash')
             ->orWhere('remit_type', 'coc')
             ->selectRaw('SUM(amount) as acpay, payment_date')
@@ -121,7 +121,7 @@ class ReportController extends Controller
             $Store = date('Y-m-d', $currentDate);
             $period[] = $Store;
         }
-        
+
         $type = "Remitance";
 
         return view('report.datewise', compact('period', 'acpay', 'coc', 'spotcash', 'online', 'qremit', 'agent', 'type'));
@@ -133,43 +133,46 @@ class ReportController extends Controller
         $enddate = strtotime($request->input('enddate') ?? now());
 
         $spotcash = Remitance::query()
-            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->whereBetween('incentive_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('remit_type', 'spotcash')
             ->where('payment_type', 'cash')
-            ->selectRaw('SUM(incentive_amount) as spotcash, payment_date')
-            ->groupBy('payment_date')
-            ->orderBy('payment_date', 'asc')
+            ->where('payment_by', '!=', 'agent')
+            ->selectRaw('SUM(incentive_amount) as spotcash, incentive_date')
+            ->groupBy('incentive_date')
+            ->orderBy('incentive_date', 'asc')
             ->get()
-            ->keyBy('payment_date')
+            ->keyBy('incentive_date')
             ->transform(function ($ac) {
                 return $ac->spotcash;
             })
             ->toArray();
 
         $coc = Remitance::query()
-            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->whereBetween('incentive_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('remit_type', 'coc')
             ->where('payment_type', 'cash')
-            ->selectRaw('SUM(incentive_amount) as coc, payment_date')
-            ->groupBy('payment_date')
-            ->orderBy('payment_date', 'asc')
+            ->where('payment_by', '!=', 'agent')
+            ->selectRaw('SUM(incentive_amount) as coc, incentive_date')
+            ->groupBy('incentive_date')
+            ->orderBy('incentive_date', 'asc')
             ->get()
-            ->keyBy('payment_date')
+            ->keyBy('incentive_date')
             ->transform(function ($ac) {
                 return $ac->coc;
             })
             ->toArray();
 
         $acpay = Remitance::query()
-            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->whereBetween('incentive_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('payment_type', 'transfer')
+            ->where('payment_by', '!=', 'agent')
             ->where('remit_type', 'spotcash')
             ->orWhere('remit_type', 'coc')
-            ->selectRaw('SUM(incentive_amount) as acpay, payment_date')
-            ->groupBy('payment_date')
-            ->orderBy('payment_date', 'asc')
+            ->selectRaw('SUM(incentive_amount) as acpay, incentive_date')
+            ->groupBy('incentive_date')
+            ->orderBy('incentive_date', 'asc')
             ->get()
-            ->keyBy('payment_date')
+            ->keyBy('incentive_date')
             ->transform(function ($ac) {
                 return $ac->acpay;
             })
@@ -177,39 +180,39 @@ class ReportController extends Controller
 
 
         $qremit = Remitance::query()
-            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->whereBetween('incentive_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('remit_type', 'qremit')
-            ->selectRaw('SUM(incentive_amount) as qremit, payment_date')
-            ->groupBy('payment_date')
-            ->orderBy('payment_date', 'asc')
+            ->selectRaw('SUM(incentive_amount) as qremit, incentive_date')
+            ->groupBy('incentive_date')
+            ->orderBy('incentive_date', 'asc')
             ->get()
-            ->keyBy('payment_date')
+            ->keyBy('incentive_date')
             ->transform(function ($ac) {
                 return $ac->qremit;
             })
             ->toArray();
 
         $online = Remitance::query()
-            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->whereBetween('incentive_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('remit_type', 'online')
-            ->selectRaw('SUM(incentive_amount) as online, payment_date')
-            ->groupBy('payment_date')
-            ->orderBy('payment_date', 'asc')
+            ->selectRaw('SUM(incentive_amount) as online, incentive_date')
+            ->groupBy('incentive_date')
+            ->orderBy('incentive_date', 'asc')
             ->get()
-            ->keyBy('payment_date')
+            ->keyBy('incentive_date')
             ->transform(function ($ac) {
                 return $ac->online;
             })
             ->toArray();
 
         $agent = Remitance::query()
-            ->whereBetween('payment_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
+            ->whereBetween('incentive_date', [date('Y-m-d', $startdate), date('Y-m-d', $enddate)])
             ->where('payment_by', 'agent')
-            ->selectRaw('SUM(incentive_amount) as agent, payment_date')
-            ->groupBy('payment_date')
-            ->orderBy('payment_date', 'asc')
+            ->selectRaw('SUM(incentive_amount) as agent, incentive_date')
+            ->groupBy('incentive_date')
+            ->orderBy('incentive_date', 'asc')
             ->get()
-            ->keyBy('payment_date')
+            ->keyBy('incentive_date')
             ->transform(function ($ac) {
                 return $ac->agent;
             })
@@ -233,8 +236,22 @@ class ReportController extends Controller
     public function daily(Request $request)
     {
         $date = strtotime($request->query('date') ?? now());
-        $remitances = Remitance::whereDate('payment_date', date('Y-m-d', $date))->get();
-        return view('report.daily', compact('remitances', 'date'));
+        $remitances = Remitance::whereDate('payment_date', date('Y-m-d', $date))
+                    // ->orWhereDate('incentive_date', date('Y-m-d', $date))
+                    ->get();
+
+        $incentives  = Remitance::whereDate('incentive_date', date('Y-m-d', $date))
+                        ->whereDate('payment_date', '!=', date('Y-m-d', $date))
+                        ->get()->toArray();                        
+
+        $incentives_sum = Remitance::whereDate('incentive_date', date('Y-m-d', $date))
+                        ->whereDate('payment_date', '!=', date('Y-m-d', $date))                        
+                        // ->with(['customer'=>function($query){$query->select('name');}])
+                        ->groupBy('customer_id')
+                        ->selectRaw('SUM(incentive_amount) as incentive_amount, customer_id')                    
+                        ->get();
+                        
+        return view('report.daily', compact('remitances', 'incentives', 'incentives_sum', 'date'));
     }
 
     public function monthly(Request $request)
@@ -295,15 +312,15 @@ class ReportController extends Controller
     public function check_ref(Request $request)
     {
         $request->validate([
-            'ref'=>'required|string|min:3'
+            'ref' => 'required|string|min:3'
         ]);
 
         $rem = Remitance::where('reference', $request->input('ref'));
 
         if ($rem->exists()) {
-           $remitance = $rem->first();
-           return redirect()->back()->with('link', "Remitance Paid at {$remitance->payment_date} to {$remitance->Customer->name} BDT {$remitance->amount}tk and Incentive {$remitance->incentive_amount}tk");
-        } else {            
+            $remitance = $rem->first();
+            return redirect()->back()->with('link', "Remitance Paid at {$remitance->payment_date} to {$remitance->Customer->name} BDT {$remitance->amount}tk and Incentive {$remitance->incentive_amount}tk");
+        } else {
             return redirect()->back()->with('danger', "Remitance with This Reference Not Found");
         }
     }

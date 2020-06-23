@@ -4,7 +4,7 @@
         <div class="col-md-12">
             @include('layouts._reportheader')
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -19,12 +19,12 @@
                     </thead>
                     <tbody>
                         @php
-                        $total_spot = 0;
-                        $total_acp = 0;
-                        $total_ag = 0;
-                        $total_co = 0;
-                        $total_qr = 0;
-                        $total_on = 0;
+                        $total_spotcash = 0;
+                        $total_acpay = 0;
+                        $total_agent = 0;
+                        $total_coc = 0;
+                        $total_qremit = 0;
+                        $total_online = 0;
                         $grand_total = 0;
                         @endphp
                         @foreach($period as $date)
@@ -44,12 +44,12 @@
                             $on = $online[$date] ?? 0;
                             $ag = $agent[$date] ?? 0;
                             $total = $spot + $acp + $co +$qr + $on + $ag;
-                            $total_spot += $spot;
-                            $total_acp += $acp;
-                            $total_ag += $co;
-                            $total_co += $qr;
-                            $total_qr += $on;
-                            $total_on += $ag;
+                            $total_spotcash += $spot;
+                            $total_acpay += $acp;
+                            $total_agent += $ag;
+                            $total_coc += $co;
+                            $total_qremit += $qr;
+                            $total_online += $on;
                             $grand_total += $total;
                             @endphp
                             <td>
@@ -71,12 +71,12 @@
                     <tfoot>
                         <tr class="font-weight-bolder">
                             <td>Total</td>
-                            <td>{{number_format($total_spot, 2)}}</td>
-                            <td>{{number_format($total_acp, 2)}}</td>
-                            <td>{{number_format($total_ag, 2)}}</td>
-                            <td>{{number_format($total_co, 2)}}</td>
-                            <td>{{number_format($total_qr, 2)}}</td>
-                            <td>{{number_format($total_on, 2)}}</td>
+                            <td>{{number_format($total_spotcash, 2)}}</td>
+                            <td>{{number_format($total_acpay, 2)}}</td>
+                            <td>{{number_format($total_agent, 2)}}</td>
+                            <td>{{number_format($total_coc, 2)}}</td>
+                            <td>{{number_format($total_qremit, 2)}}</td>
+                            <td>{{number_format($total_online, 2)}}</td>
                             <td>{{number_format($grand_total, 2)}}</td>
                         </tr>
                     </tfoot>

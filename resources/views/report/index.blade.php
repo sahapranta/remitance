@@ -1,16 +1,17 @@
 @extends('layouts.app')
 @section('css')
-<link rel="stylesheet" href="/css/daterangepicker.min.css">
-<script>
+<link rel="stylesheet" href="/remitance/css/daterangepicker.min.css">
+<script>    
     function make_script(link) {
         let script = document.createElement("script");
         script.src = link;
+        script.type = "text/javascript";
         document.body.appendChild(script);
     }
 
     window.onload = () => {
         make_script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js');
-        make_script('/js/jquery.daterange.js');
+        make_script('/remitance/js/jquery.daterange.js');
         setTimeout(() => {
             $('.daterange').dateRangePicker({
                 autoClose: true,
